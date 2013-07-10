@@ -1,0 +1,6 @@
+tradenplay/settings.py
+log/*.log
+nppBackup/
+*.zip
+*.tar
+*.gz
