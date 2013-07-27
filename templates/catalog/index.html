@@ -1,0 +1,15 @@
+{% extends "common_templates/catalog.html" %}
+{% load i18n %}
+
+
+{% load catalog_tags %}
+
+{% block content %}
+<h1>Welcome to Modern Musician!</h1>
+{% comment %}
+{% product_list recently_viewed 'Your Recently Viewed' %}
+{% product_list view_recs 'Similar Products' %}
+{% product_list featured 'Featured Products' %}
+{% product_list search_recs 'Recommended For You' %}
+{% endcomment %}
+{% endblock %}

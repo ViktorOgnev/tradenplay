@@ -1,10 +1,10 @@
 from django.db import models
-
+import datetime 
 #from catalog.models import Product
 
 class CartItem(models.Model):
     cart_id = models.CharField(max_length=50)
-    date_added = model.DateTimeField(auto_now_addd=True)
+    date_added = models.DateTimeField(default=datetime.datetime.now)
     quantity = models.IntegerField(default=1)
     product = models.ForeignKey('catalog.Product', unique=False)
     

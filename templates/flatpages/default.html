@@ -1,0 +1,13 @@
+{% load i18n %}
+{% extends "catalog.html" %}
+
+{% block title %} 
+    {{ flatpage.title }} - {{ site.name }}
+{% endblock %}
+
+{% block content %}
+    <h1> {{ flatpage.title }}</h1>
+    {{ flatpage.content }}
+{% endblock %}
+
+    

@@ -25,6 +25,9 @@ else:
 urlpatterns += patterns('',
     (r'^admin/', include(admin.site.urls)),
     #(r'^cache/', include('keyedcache.urls')), - broken views disable for now
+    url(r'^catalog/', include('catalog.urls')),
+    url(r'^cart/', include('cart.urls')),
+    url(r'^checkout/', include('checkout.urls')),
     (r'^settings/', include('askbot.deps.livesettings.urls')),
     (r'^followit/', include('followit.urls')),
     (r'^tinymce/', include('tinymce.urls')),
@@ -34,9 +37,13 @@ urlpatterns += patterns('',
         'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT.replace('\\','/')},
     ),
+    
 )
 
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',
                     url(r'^rosetta/', include('rosetta.urls')),
                 )
+
+
+handler500 = 'utils.views.view_500'

@@ -1,0 +1,69 @@
+{% extends "common_templates/catalog.html"%}
+{% load i18n %}
+{% load checkout_tags %}
+
+{% block content %}
+<h1>{% trans "Checkout" %}</h1>
+{% if error_message %}
+<ul class="errorlist">
+    <li>{{ error_message }}</li>
+</ul>
+{% endif %}
+<form action="." method="post">
+    {% csrf_token %}
+    <fieldset class="checkout">
+        
+        <legend>{% trans "Contact info" %} </legend>
+        
+        <table>
+            {% form_table_row form.email %}
+            {% form_table_row form.phone %}
+        </table>
+        
+    </fieldset>
+    <fieldset class="checkout">
+        <legend>{% trans "Shipping information" %}</legend>
+        <table>
+            {% form_table_row form.shipping_name %}
+            {% form_table_row form.shipping_address_1 %}
+            {% form_table_row form.shipping_address_2 %}
+            {% form_table_row form.shipping_city%}
+            {% form_table_row form.shipping_state %}
+            {% form_table_row form.shipping_zip %}
+            {% form_table_row form.shipping_country %}
+        
+        </table>
+    </fieldset>
+</table>
+<fieldset class="checkout">
+    <legend>{% trans "Billing information" %}</legend>
+    <table>
+    {% form_table_row form.billing_name %}
+    {% form_table_row form.billing_address_1 %}
+    {% form_table_row form.billing_address_2 %}
+    {% form_table_row form.billing_city%}
+    {% form_table_row form.billing_state %}
+    {% form_table_row form.billing_zip %}
+    {% form_table_row form.billing_country %}
+    </table>
+</fieldset>
+<fieldset class="checkout">
+    <legend>{% trans "Credit card information" %}</legend>
+    <table>
+    {% form_table_row form.credit_card_number %}
+    {% form_table_row form.credit_card_type %}
+    {% form_table_row form.credit_card_expire_month %}
+    {% form_table_row form.credit_card_expire_year %}
+    {% form_table_row form.credit_card_cvv %}
+    </table>
+</fieldset>
+<table>
+    <tr>
+        <th colspan="2">
+            <input type="submit" value={% trans "Place order" %} class="submit"/>
+        </th>
+    </tr>
+</table>
+
+</form>
+{% endblock %}
