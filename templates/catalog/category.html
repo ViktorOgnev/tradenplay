@@ -2,10 +2,12 @@
 
 {% load i18n %}
 {% block content %}
-<h1>{{ c.name }}</h1>
-{{ c.description }}
-<br /><br />
-{% for product in products %}
-{% include 'tags/product_thumbnail.html' %}
-{% endfor %}
+    <h1>{{ c.name }}</h1>
+    {{ c.description }}
+    <br /><br />
+    
+    {% for product in products %}
+        {% include 'tags/product_thumbnail.html' %}
+    {% endfor %}
+    
 {% endblock %}

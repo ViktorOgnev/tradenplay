@@ -1,0 +1,9 @@
+{% extends "common_templates/base.html" %}
+{% load i18n %}
+
+{% block title %} {% trans "Internal server error" %} {% endblock %}
+{% block site_wrapper %} 
+    {% trans "Sorry, something bad happened while processing this page." %}
+    <br /> <br />
+    {% trans "We apologise for any inconvenience, please try again later" %}
+{% endblock %}

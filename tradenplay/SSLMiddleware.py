@@ -4,7 +4,9 @@ from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, get
 
 SSL = 'SSL'
 
+
 class SSLRedirect:
+
     def process_view(self, request, view_func, view_args, view_kwargs):
         if SSL in view_kwargs:
             secure = view_kwargs[SSL]
@@ -13,20 +15,21 @@ class SSLRedirect:
             secure = False
         if not secure == self._is_secure(request):
             return self._redirect(request, secure)
-        
+
     def _is_secure(self, request):
         if request.is_secure():
             return True
         if 'HTTP_X_FORWARDED_SSL' in request.META:
             return request.META['HTTP_X_FORWARDED_SSL'] == 'on'
         return False
-        
+
     def _redirect(self, request, secure):
         protocol = secure and "https" or "http"
-        newurl = "%s://%s%s" % (protocol, get_host(request), request.get_full_path())
+        newurl = "%s://%s%s" % (
+            protocol, get_host(request), request.get_full_path())
         if settings.DEBUG and request.method == 'POST':
             raise RuntimeError, \
-            """
+                """
             Django cant perform a SSL redirect while maintaining a POST data.
             Please structure your views so that redirects only occur during GETs.
             """

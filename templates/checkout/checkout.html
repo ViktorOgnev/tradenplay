@@ -3,6 +3,7 @@
 {% load checkout_tags %}
 
 {% block content %}
+{% invite_to_login request %}
 <h1>{% trans "Checkout" %}</h1>
 {% if error_message %}
 <ul class="errorlist">

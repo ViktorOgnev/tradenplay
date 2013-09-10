@@ -1,0 +1,30 @@
+{% load i18n %}
+{% if form.errors %}
+<ul class="errorlist">
+    <li> {% trans "You entered an invalid username or password" %}</li>
+</ul>
+<br />
+{% endif %}
+<form id="login_form" method="post" action="{% url accounts_log_in %}">
+    {% csrf_token %}
+    <table summary="{% trans 'Login' %}" id="login">
+       <!-- {% comment %}  <caption>{% trans "Login" %}</caption>
+        <tr>    
+            <td>{{ form.username.label_tag }}:</td>
+            <td>{{ form.username }} </td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}: </td>
+            <td>{{ form.password}}: </td>
+        </tr>
+        {% endcomment %} -->
+        {{ form.as_table }}
+        
+        <tr>
+            <td colspan="2" class="right">
+                <input type="submit" value="{% trans 'Login' %}"/>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="next" value={{ next }} />
+</form>

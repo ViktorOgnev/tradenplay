@@ -1,28 +1,33 @@
-from cart.models import CartItem
-from catalog.models import Product
-from django.shortcuts  import get_object_or_404
-from django.http import HttpResponseRedirect
 import decimal
 import random
-from string import ascii_letters 
+from string import ascii_letters
+from datetime import datetime, timedelta
 
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.conf import settings
+from django.db.models import Max
+
+from tradenplay.settings import SESSION_AGE_DAYS
+from catalog.models import Product
+from .models import CartItem
 CART_ID_SESSION_KEY = 'cart_id'
-
 
 
 def _cart_id(request):
     """
-    Get the current user's cart id, sets new one if blank 
+    Get the current user's cart id, sets new one if blank.
     """
     if not CART_ID_SESSION_KEY in request.session:
         request.session[CART_ID_SESSION_KEY] = _generate_cart_id()
     return request.session[CART_ID_SESSION_KEY]
 
+
 def _generate_cart_id():
     cart_id = ''
     cart_id_length = 50
     for counter in range(cart_id_length):
-        cart_id += ascii_letters[random.randint(0, len(ascii_letters)- 1)]
+        cart_id += ascii_letters[random.randint(0, len(ascii_letters) - 1)]
     return cart_id
     
 
@@ -62,18 +67,21 @@ def add_to_cart(request):
             product_in_cart = True
     if not product_in_cart:
         
-        # Create and save a new cart item
+        # Create and save a new cart item.
         cart_item = CartItem()
         cart_item.product = p
         cart_item.quantity =  quantity
         cart_item.cart_id = _cart_id(request)
         cart_item.save()
     
+    
 def cart_distinct_item_count(request):
     return get_cart_items(request).count()
 
+
 def get_single_item(request, item_id):
     return get_object_or_404(CartItem, id=item_id, cart_id=_cart_id(request))
+
 
 def update_cart(request):
     """
@@ -89,7 +97,8 @@ def update_cart(request):
             cart_item.save()
         else:
             remove_from_cart(request)
-            
+    
+    
 def remove_from_cart(request):
     """
     Remove a single item from cart
@@ -100,7 +109,8 @@ def remove_from_cart(request):
     if cart_item:
         cart_item.delete()
 
-def cart_subtotal(request):
+
+def get_cart_subtotal(request):
     """
     Gets the total cost for a current cart 
     """
@@ -114,51 +124,25 @@ def cart_subtotal(request):
 def cart_is_empty(request):
     return cart_distinct_item_count(request) == 0
     
+    
 def empty_the_cart(request):
     user_cart = get_cart_items(request)
     user_cart.delete()
     
-
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+def remove_old_cart_items():
+    print "Removing old carts."
+    # Calculate date of SESSION_AGE_DAYS ago.
+    remove_before = datetime.now() + timedata(days=-SESSION_AGE_DAYS)
+    cart_ids = []
+    # Get all the old cart items.
+    old_items = CartItem.objects.values('cart_id').annotate(
+        last_change=Max('date_added')).filter(last_change_lt=remove_before
+                                              ).order_by()
+    # Create a list of cart id's that haven't been modified.
+    for item in old_items:
+        cart_ids.append(item['cart_id'])
+    # Get obsolette itemse b id and remove them.
+    to_remove = CartItem.objects.filter(cart_id__in=cart_ids)
+    to_remove.delete()
+    print str(len(cart_ids)) + "carts were removed."

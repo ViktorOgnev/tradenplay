@@ -5,6 +5,7 @@ html,body{background-color:Silver;}
 .fr{float:right;}
 .fl{float:left;}
 .bn{border:none;}
+.strong{font-weight:bold;}
 
 #main{
 	margin: 0 auto;
@@ -149,7 +150,15 @@ h3{
 }
 
 ul#categories{
-	list-style:none;
+	list-style: none;
+}
+ul#categories ul{
+    list-style: none;
+    margin-left: 15px;
+}
+
+ul#categories>ul{
+    margin-left: 0;
 }
 ul#categories li{
 	font-weight:bold;

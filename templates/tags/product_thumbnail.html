@@ -1,7 +1,8 @@
 <div class="product_thumbnail">
-	<a href="{{ product.get_absolute_url }}">
+	<a href="{% url catalog_product slug=product.slug %}">
 		<img class="bn resizable_image category_img" src="{{ product.image_url }}" alt="{{ product.name }}"  />
 		<br />
 		{{ product.name }}
+        
 	</a>
 </div>

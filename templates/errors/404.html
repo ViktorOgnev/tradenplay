@@ -1,0 +1,9 @@
+{% extends "common_templates/base.html" %}
+{% load i18n %}
+
+{% block title %} {% trans "Page not found" %} {% endblock %}
+{% block site_wrapper %} 
+    {% trans "Sorry, we could not find the page you are asking for." %}
+    <br /> <br />
+    {% trans "We apologise for any inconvenience, please try again later." %}
+{% endblock %}

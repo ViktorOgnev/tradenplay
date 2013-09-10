@@ -1,0 +1,50 @@
+{% extends "common_templates/catalog.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<h1> {% trans "My account" %} </h1>
+<p id="welcome"> {% trans "Welcome," %} {{name|capfirst}}</p>
+<br /><br />
+<fieldset class="my_account">
+    <legend>    
+        {% trans "Order History" %}
+    </legend>
+    
+    {% for order in orders %}
+        {% comment %}
+        <a href="{{ order.get_absolurte_url }}">
+            <p class="order_number">
+                {% trans "Order number " %} {{ order.number }} 
+            </p>
+            <p class="order_date">
+                {{ order.date|date}}
+            </p>
+        </a>
+        {% endcomment %}
+    {% empty %}
+        <p>
+            {% trans "You have no past orders" %}
+        </p>
+    {% endfor %}
+    
+</fieldset>
+<br />
+<fieldset class="my_account">
+    <legend>
+        {% trans "Account settings"%} 
+    </legend>
+    <ul>
+        <li>
+            <a href="{% url django.contrib.auth.views.password_change %}">
+                {% trans "Change Password" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url order_info %}"> 
+                {% trans "Edit billing/shipping Information" %}
+            </a>
+        </li>
+    </ul>
+</fieldset>
+{% endblock %}

@@ -1,4 +1,4 @@
-from cart import cart_utils 
+from cart import cart_utils
 from checkout.models import Order, OrderItem
 from checkout.forms import CheckoutForm
 from checkout import authnet
@@ -12,7 +12,8 @@ def get_checkout_url(request):
     """
     Return the URL from the checkout URL for cart
     """
-    return urlresolvers.reverse('checkout')
+    return urlresolvers.reverse('checkout_show')
+
 
 def process(request):
     # Transaction results
@@ -20,7 +21,7 @@ def process(request):
     DECLINED = '2'
     ERROR = '3'
     HELD_FOR_REVIEW = '4'
-    
+
     postdata = request.POST.copy()
     card_num = postdata.get('credit_card_number', '')
     exp_month = postdata.get('credit_card_expire_month', '')
@@ -33,19 +34,19 @@ def process(request):
                                        card_num=card_num,
                                        exp_date=exp_date,
                                        card_cvv=cvv)
-                                       
+
     if response[0] == APPROVED:
         transacion_id = response[6]
         order = create_order(request, transaction_id)
-        results = {'order_number': order.id, 'message':''}
+        results = {'order_number': order.id, 'message': ''}
     if response[0] == DECLINED:
-        results = {'order_number': 0, 
+        results = {'order_number': 0,
                    'message': _('There is a problem with your credit card')}
     if respose[0] == ERROR:
-        results = {'order_number': 0, 
+        results = {'order_number': 0,
                    'message': _('There was en error processing your order')}
     return results
-    
+
     def create_order(request, transaction_id):
         order = Order()
         checkout_form = CheckoutForm(request.POST, instance=order)
@@ -53,9 +54,11 @@ def process(request):
         order.transaction_id = transaction_id
         order.ip_address = reqest.META.get('REMOTE_ADDR')
         order.user = None
+        if request.user.is_authenticated():
+            order.user = request.user
         order.status = Order.SUBMITTED
         order.save()
-        
+
         # If order save succeeded
         if order.pk:
             cart_items = cart_utils.get_cart_items(request)
@@ -65,9 +68,13 @@ def process(request):
                 oi.order = order
                 oi.quantity = ci.quantity
                 oi.price = ci.price
-                oi.product = ci.product 
+                oi.product = ci.product
                 oi.save()
             # Now we can emty the cart
             cart_utils.empty_cart(request)
+        # save profile info for future orders
+        if request.user.is_authenticated():
+            from accounts import profile
+            profile.set(request)
         # Return  the new order object
-        return order 
+        return order

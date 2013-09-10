@@ -1,21 +1,33 @@
 {% extends "common_templates/base.html" %} 
 
+{% load i18n %}
 {% load catalog_tags %}
-{% comment %} {% load search_tags %} {% endcomment %}
+{% load search_tags %} 
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}
 
 {% block site_wrapper %}
 <div id="main">
 	<a href="#content" class="skip_link">Skip to main content</a>
 	<noscript>
-		<div id="noscript">Some parts of {{ site_name }} require Javascript</div>
+		<div id="noscript">
+            {% trans "Some parts of" %} 
+            {{ site_name }} 
+            {% trans "require JavaScript" %} 
+        </div>
 		<div id="noscript_padder"></div>
 	</noscript>
 	<div id="banner">
 		<div class="bannerIEPadder">
-			<div class="cart_box">
+			<div class="site-name">
+                {{ site_name|capfirst }}
+            </div>
+            <div class="cart_box">
 				{% cart_box request %}
 			</div>
-			{{ site_name }}
+			
 		</div>
 	</div>
 	<div id="navigation">
@@ -26,7 +38,7 @@
 	<div id="middle">
 		<div id="sidebar">
 			<div class="sidebarIEPadder">
-				{% comment %} {% search_box request %} {% endcomment %}
+				{% search_box request %} 
 				<br /><br />
 				{% category_list request.path %}
 				<br /><br />

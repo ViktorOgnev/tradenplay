@@ -1,0 +1,17 @@
+{% extends "common_templates/catalog.html" %}
+
+{% load i18n %}
+{% load search_tags %}
+
+{% block content %}
+    <h1> {% trans "Search results" %} </h1>
+    {% for product in results %}
+        
+       {% include "tags/product_thumbnail.html" %}
+    {% empty %}
+        {% trans "Sorry, right now we don't have anything matching your query" %}
+    {% endfor %}
+    <div class="cb">&nbsp;</div>
+    {% pagination_links request paginator %}
+    
+{% endblock %}

@@ -1,0 +1,152 @@
+[
+    {
+        "pk": 3, 
+        "model": "catalog.category", 
+        "fields": {
+            "meta_description": "Nullam dolor sapien", 
+            "created_at": "2013-08-21T05:27:56", 
+            "meta_keywords": "Nullam dolor sapien", 
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in tempus est. Integer dapibus sagittis ante, vitae dignissim augue blandit sit amet. Maecenas rhoncus euismod pulvinar. Nulla facilisi. Fusce interdum nisi lectus, id convallis nisi rhoncus adipiscing. Suspendisse in ligula dictum, adipiscing leo vitae, placerat ipsum. Nunc eleifend, magna pretium facilisis lobortis, odio velit vehicula ante, vel consequat est arcu laoreet quam. Pellentesque a interdum nibh. Nullam dolor sapien, vestibulum quis odio sed, lacinia accumsan dui. Aenean augue urna, posuere quis tempor in, consequat pretium ligula.\r\n", 
+            "child_categories": [], 
+            "image": "", 
+            "is_active": true, 
+            "updated_at": "2013-08-21T05:27:56", 
+            "slug": "nullam-dolor-sapien", 
+            "thumbnail_url": null, 
+            "image_url": null, 
+            "parent_categories": [
+                1
+            ], 
+            "thumbnail": "", 
+            "name": "Nullam dolor sapien"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "catalog.category", 
+        "fields": {
+            "meta_description": "meta_description meta_description meta_description meta_description meta_description meta_description meta_description meta_description ", 
+            "created_at": "2013-07-24T01:33:41.974", 
+            "meta_keywords": "meta_key_1 meta_key_2", 
+            "description": "Description of a test category", 
+            "child_categories": [], 
+            "image": "/var/www/django_projects/tradenplay_env/tradenplay/media/upfiles/Test category 2/Hydrangeas.jpg", 
+            "is_active": true, 
+            "updated_at": "2013-07-24T01:33:41.975", 
+            "slug": "test-category-2", 
+            "thumbnail_url": null, 
+            "image_url": "/media/upfiles/Test%20category%202/Hydrangeas.jpg", 
+            "parent_categories": [], 
+            "thumbnail": "", 
+            "name": "Test category 2"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "catalog.category", 
+        "fields": {
+            "meta_description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "created_at": "2013-07-23T05:54:20.013", 
+            "meta_keywords": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\"\r\n", 
+            "child_categories": [], 
+            "image": "/var/www/django_projects/tradenplay_env/tradenplay/media/upfiles/Test category/Jellyfish.jpg", 
+            "is_active": true, 
+            "updated_at": "2013-07-23T05:54:20.013", 
+            "slug": "test-category", 
+            "thumbnail_url": null, 
+            "image_url": "/media/upfiles/Test%20category/Jellyfish.jpg", 
+            "parent_categories": [], 
+            "thumbnail": "", 
+            "name": "Test category"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "catalog.product", 
+        "fields": {
+            "meta_description": "TEST TEST TEST TEST ", 
+            "created_at": "2013-08-21T08:28:19", 
+            "brand": "superbrand", 
+            "meta_keywords": "TEST TEST TEST TEST TEST ", 
+            "description": "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST ", 
+            "old_price": "0.00", 
+            "image": "upfiles/Productshmoduct/Tulips.jpg", 
+            "is_active": true, 
+            "updated_at": "2013-08-21T08:28:19", 
+            "slug": "productshmoduct", 
+            "price": "1.00", 
+            "thumbnail_url": "/media/upfiles/Productshmoduct/Jellyfish_1.jpg", 
+            "image_url": "/media/upfiles/Productshmoduct/Tulips.jpg", 
+            "is_bestseller": true, 
+            "sku": "TEST TEST ", 
+            "is_featured": true, 
+            "quantity": 1, 
+            "thumbnail": "upfiles/Productshmoduct/Jellyfish_1.jpg", 
+            "categories": [
+                3
+            ], 
+            "name": "Productshmoduct"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "catalog.product", 
+        "fields": {
+            "meta_description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "created_at": "2013-08-22T03:24:58", 
+            "brand": "Lorem Ipsum", 
+            "meta_keywords": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\"\r\n", 
+            "old_price": "0.00", 
+            "image": "upfiles/NewTestProduct/Desert.jpg", 
+            "is_active": false, 
+            "updated_at": "2013-08-22T03:24:58", 
+            "slug": "newtestproduct", 
+            "price": "1.00", 
+            "thumbnail_url": "/media/upfiles/NewTestProduct/thumbnailNewTestProduct", 
+            "image_url": "/media/upfiles/NewTestProduct/Desert.jpg", 
+            "is_bestseller": true, 
+            "sku": "12367", 
+            "is_featured": true, 
+            "quantity": 1, 
+            "thumbnail": "", 
+            "categories": [
+                3, 
+                2, 
+                1
+            ], 
+            "name": "NewTestProduct"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "catalog.product", 
+        "fields": {
+            "meta_description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "created_at": "2013-08-22T03:30:44", 
+            "brand": "Some other brand", 
+            "meta_keywords": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia volupt", 
+            "description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\"\r\n", 
+            "old_price": "0.00", 
+            "image": "upfiles/TestProduct3/Lighthouse.jpg", 
+            "is_active": true, 
+            "updated_at": "2013-08-22T03:30:44", 
+            "slug": "testproduct3", 
+            "price": "1.00", 
+            "thumbnail_url": "/media/upfiles/TestProduct3/thumbnailTestProduct3", 
+            "image_url": "/media/upfiles/TestProduct3/Lighthouse.jpg", 
+            "is_bestseller": true, 
+            "sku": "1234", 
+            "is_featured": true, 
+            "quantity": 1, 
+            "thumbnail": "", 
+            "categories": [
+                3, 
+                2, 
+                1
+            ], 
+            "name": "TestProduct3"
+        }
+    }
+]

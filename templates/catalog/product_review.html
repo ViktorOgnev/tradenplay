@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="review">
+    {% trans "Rating" %}:{{ review.rating }}
+    <p class="strong"> {{ review.title }}</p>
+    {% trans "by" %} {{ review.user.username }}
+    <br />
+    {{ review.content }}
+    <br /><br />
+    <hr />
+</div>

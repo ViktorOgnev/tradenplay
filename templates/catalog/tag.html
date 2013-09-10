@@ -1,0 +1,13 @@
+{% extends "common_templates/catalog.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <h1>
+        {% trans "Products tagged with:" %} '{{ tag }}'
+    </h1>
+    {% for product in products %}
+        {% include "tags/product_thumbnail.html" %}
+    
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "common_templates/catalog.html" %}
+
+{% load i18n %}
+{% load tagging_tags %}
+
+{% block content %}
+
+<h1> 
+    {% trans "Product tag cloud" %}
+    <br />
+    {% for tag in product_tags %}
+        <a href="{%url catalog_tag tag=tag %}" style="font-size:{{ tag.font_size|add:'11'}}px;">
+            {{ tag.name|slugify }}
+        </a>
+        &nbsp;
+    {% endfor %}
+</h1> 
+{% endblock %}    
+

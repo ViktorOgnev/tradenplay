@@ -1,16 +1,55 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+import httplib
 
-Replace this with more appropriate tests for your application.
-"""
+from django.test import TestCase, Client
+from django.core import urlresolvers
 
-from django.test import TestCase
+from catalog.models import Category, Product
+from cart.models import CartItem
+from cart import cart_utils
+
+from .forms import CheckoutForm
+from .models import Order, OrderItem
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class CheckoutTestCase(TestCase):
+    """ tests checkout form page functionality """
+    
+    fixtures = ['catalog_initial_data.json', 'cart_initial_data.json']
+    
+    def setUp(self):
+        self.client = Client()
+        home_url = urlresolvers.reverse('catalog_home')
+        self.checkout_url = urlresolvers.reverse('checkout_show')
+        self.client.get(home_url)
+        # need to create customer with a shopping cart first
+        self.item = CartItem()
+        product = Product.active.get()
+        self.item.product = product
+        self.item.cart_id = self.client.session[cart_utils.CART_ID_SESSION_KEY]
+        self.item.quantity = 1
+        self.item.save()
+
+    def test_checkout_page_empty_cart(self):
+        """ empty cart should be redirected to cart page """
+        cart_url = urlresolvers.reverse('show_cart')
+        response = self.client.get(self.checkout_url)
+        self.assertRedirects(response, cart_url)
+    
+    def test_checkout_page(self):
+        """ with at least one cart item, request for checkout page URL is successful """
+        response = self.client.get(self.checkout_url)
+        self.assertEqual(response.status_code, httplib.OK)
+        self.assertContains(response, "Checkout")
+        url_entry = urlresolvers.resolve(self.checkout_url)
+        template_name = url_entry[2]['template_name']
+        self.assertTemplateUsed(response, template_name) 
+
+    def test_submit_empty_form(self):
+        """ empty order form raises 'required' error message for required order form fields """
+        form = CheckoutForm()
+        response = self.client.post(self.checkout_url, form.initial)
+        for name, field in form.fields.iteritems():
+            value = form.fields[name]
+            if not value and form.fields[name].required:
+                error_msg = form.fields[name].error_messages['required']
+                self.assertFormError(response, "form", name, [error_msg])

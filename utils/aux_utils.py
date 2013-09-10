@@ -7,7 +7,10 @@ from string import letters
 from PIL import Image
 from os.path import join, split
 from django.db.models import ImageField
+from django.utils.translation import ugettext_lazy as _
+
 from tradenplay.settings import  IMG_UPLD_DIR
+
 
 
 # utility functions that can possibly be common for several models
@@ -36,8 +39,8 @@ def get_image_path(instance, filename):
         try: 
             obj_name = instance.title
         except AttributeError :
-            return """Please reconstruct your model 
-                      so that it has a title or name property"""
+            return _("""Please reconstruct your model 
+                      so that it has a title or name property""")
             
     instance_subdir = transliterate(obj_name[0:20])
     return join(IMG_UPLD_DIR, instance_subdir, filename)    

@@ -1,17 +1,26 @@
 {% load i18n %}
+
+
 <h3> {% trans "Categories" %} </h3>
 <ul id="categories">
 {% with active_categories as categories %}
+    
     {% for category in categories %}
-        <li>
-        {% ifequal category.get_absolute_url request_path %}
-            {{ category.name }}<br />
+        {% if category == "in" %}
+            <ul>
+        {% elif category == "out" %}
+            </ul>
         {% else %}
-            <a href="{{ category.get_absolute_url }}" class="category">
-                {{ category.name }}
-            </a><br />
-        {% endifequal %}
-        </li>
+            <li>
+                {% ifequal category.get_absolute_url request_path %}
+                    {{ category.name }}<br />
+                {% else %}
+                    <a href="{% url catalog_category slug=category.slug %}" class="category">
+                        {{ category.name }}
+                    </a><br />
+                {% endifequal %}
+            </li>
+        {% endif %}
     {% endfor %}
 {% endwith %}   
 </ul>

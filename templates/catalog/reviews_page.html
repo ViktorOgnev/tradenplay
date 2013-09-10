@@ -1,0 +1,15 @@
+<div id="reviews">
+    {% load endless %}
+    
+    {% paginate product_reviews %}
+    {% for review in product_reviews %}
+    {% include 'catalog/product_review.html' %}
+    {% empty %}
+    
+    <div id="no_reviews">
+        No product reviews yet.
+    </div>
+    {% endfor %}
+    {% show_more %}
+    
+</div>
