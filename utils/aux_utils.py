@@ -39,8 +39,9 @@ def get_image_path(instance, filename):
         try: 
             obj_name = instance.title
         except AttributeError :
-            return _("""Please reconstruct your model 
-                      so that it has a title or name property""")
+            return _("Please reconstruct your model so that it has a 'title' or" 
+                     "'name' property"
+                    )
             
     instance_subdir = transliterate(obj_name[0:20])
     return join(IMG_UPLD_DIR, instance_subdir, filename)    

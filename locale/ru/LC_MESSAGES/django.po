@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-05 03:00-0500\n"
+"POT-Creation-Date: 2013-09-11 03:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,18 +19,431 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: tradenplay/settings.py:81
+#: accounts/forms.py:18
+msgid "Password"
+msgstr "Пароль"
+
+#: accounts/forms.py:20
+msgid "Password must be 6 characters long and contain"
+msgstr "Пароль должен быть длиной от 6 символов и содержать"
+
+#: accounts/forms.py:27
+msgid "Password confirmation"
+msgstr "Подтверждение пароля"
+
+#: accounts/forms.py:29
+msgid "Please reenter your password manually, without copying"
+msgstr "Пожалуйста, повторите Ваш пароль вручную, без копирования"
+
+#: accounts/models.py:14
+msgid "User profle for"
+msgstr "Профиль пользователя"
+
+#: accounts/views.py:36
+msgid "User registration"
+msgstr "Регистрация пользователя"
+
+#: accounts/views.py:45 templates/registration/my_account.html:6
+#, fuzzy
+msgid "My account"
+msgstr "Мой аккаунт"
+
+#: accounts/views.py:56
+#, python-format
+msgid "Order details for order number %s"
+msgstr "Детали заказа номер %s"
+
+#: accounts/views.py:74 templates/registration/order_info.html:7
+msgid "Edit order information"
+msgstr "Редактировать информацию о заказе"
+
+#: accounts/views.py:112
+msgid "Account is disabled"
+msgstr "Аккаунт отключён/недоступен"
+
+#: accounts/views.py:114
+msgid "Sorry, we were unable to acceept this login/password"
+msgstr "К сожалению мы не смогли авторизовать этот логин/пароль"
+
+#: cart/views.py:28
+msgid "Shopping Cart"
+msgstr "Корзина"
+
+#: catalog/admin.py:24
+msgid "Basic data"
+msgstr "Основная информация"
+
+#: catalog/admin.py:30
+msgid "Advanced data"
+msgstr "Расширенная информация"
+
+#: catalog/forms.py:21
+msgid "Price supplied must be greater than zero."
+msgstr "Указанная цена должна быть выше нуля."
+
+#: catalog/forms.py:39
+msgid "Please enter a valid quantity."
+msgstr "Пожалуйста, введите допустимое количество"
+
+#: catalog/forms.py:56
+msgid "Cookies must be enabled."
+msgstr "Cookie дожны быть разрешены"
+
+#: catalog/models.py:48
+msgid ""
+"\n"
+"        Comma delimited set of SEO keywords for meta tag.\n"
+"        This one is rather important for SEO purposes.\n"
+"        <br />\n"
+"        The keyword propositions may\n"
+"        be constructed as shown in the\n"
+"        <a href=\"https://vimeo.com/32295368.\" style=\"font-size: 12px;\">\n"
+"            corresponding video\n"
+"        </a>\n"
+"        <br />\n"
+"        At most cases should not  be longer than 5-7 words.\n"
+"        "
+msgstr ""
+"\n"
+"        Разделённый запятыми список SEO ключевых слов.\n"
+"        Этот пункт важен для SEO оптимизации\n"
+"        <br />\n"
+"        Вероятные ключевые слова\n"
+"        Могут быть сгенерированы, как описано здесь\n"
+"        <a href=\"https://vimeo.com/32295368.\" style=\"font-size: 12px;\">\n"
+"            corresponding video\n"
+"        </a>\n"
+"        <br />\n"
+"        В большинстве случаев список не должен превышать 5-7 слов.\n"
+"        "
+
+#: catalog/models.py:73
+msgid ""
+"Unique value, generated                                 from name "
+"automatically."
+msgstr "Уникальное значение генерируемое из названия автоматически."
+
+#: catalog/models.py:92
+msgid ""
+"Short(!) and relevant(!)                                                     "
+"description."
+msgstr "Короткое, ёмкое и непосредственно относящееся(!) к позиции описание."
+
+#: catalog/models.py:156
+msgid "Category"
+msgstr "Категория"
+
+#: catalog/models.py:157 templates/tags/category_list.html:4
+msgid "Categories"
+msgstr "Категории"
+
+#: catalog/models.py:200
+msgid "Product"
+msgstr "Продукты"
+
+#: catalog/models.py:201
+msgid "Products"
+msgstr "Продукты"
+
+#: catalog/views.py:30
+msgid ""
+"Tradenplay.com - the best place                               to trade your "
+"music stuff"
+msgstr ""
+"Tradenplay.com - лучшее место для торговли "
+"вашим музыкальным эквипом"
+
+#: catalog/views.py:176 templates/catalog/tag_cloud.html:9
+msgid "Product tag cloud"
+msgstr "Облако тэгов продукта."
+
+#: checkout/checkout_utils.py:44
+msgid "There is a problem with your credit card"
+msgstr "К сожалению, мы не смогли принять Вашу кредитную карту"
+"Пожалуйста, проверьте введённый номер и тип карты"
+
+#: checkout/checkout_utils.py:47
+msgid "There was en error processing your order"
+msgstr "К сожалению, во время обработки Вашего заказа произошла ошибка."
+
+#: checkout/models.py:73
+msgid "Order"
+msgstr "Заказ"
+
+#: checkout/models.py:74
+msgid "Orders"
+msgstr "Заказы"
+
+#: checkout/models.py:77
+msgid "Order number"
+msgstr "Номер заказа"
+
+#: checkout/models.py:112
+msgid "Order Item"
+msgstr "Позиция заказа"
+
+#: checkout/models.py:113
+msgid "Order Items"
+msgstr "Позиции заказа"
+
+#: checkout/views.py:34
+msgid "Correct the errors below"
+msgstr "Пожалуйста, исправьте нижеследующие ошибки"
+
+#: checkout/views.py:41 templates/checkout/checkout.html:7
+msgid "Checkout"
+msgstr "Данные заказа"
+
+#: search/forms.py:14 templates/tags/search_box.html:5
+msgid "Search"
+msgstr "Поиск"
+
+#: search/views.py:35
+msgid "Search results for"
+msgstr "Результаты поиска для"
+
+#: templates/catalog/product.html:68
+msgid "Tag this product (must be at least three characters)"
+msgstr "Добавить тэг к этому продукту( не менее трёх символов)"
+
+#: templates/catalog/product_review.html:3
+msgid "Rating"
+msgstr "Оценка"
+
+#: templates/catalog/product_review.html:5
+msgid "by"
+msgstr ""
+
+#: templates/catalog/tag.html:7
+msgid "Products tagged with:"
+msgstr "Продукты отмеченные тэгом:"
+
+#: templates/checkout/checkout.html:17
+msgid "Contact info"
+msgstr "Контактная информация"
+
+#: templates/checkout/checkout.html:26
+msgid "Shipping information"
+msgstr "Информация о доставке"
+
+#: templates/checkout/checkout.html:40
+msgid "Billing information"
+msgstr "Оплата"
+
+#: templates/checkout/checkout.html:52
+msgid "Credit card information"
+msgstr "Кредитная карта"
+
+#: templates/checkout/checkout.html:64
+msgid "Place order"
+msgstr "Подтвердить заказ"
+
+#: templates/checkout/receipt.html:7
+msgid "Your order has been placed!"
+msgstr "Ваш заказ оформлен успешно!"
+
+#: templates/checkout/receipt.html:8
+msgid "Your order number is:"
+msgstr "Номер Вашего заказа: "
+
+#: templates/checkout/receipt.html:12
+#: templates/registration/order_detail.html:12
+msgid "Name"
+msgstr "Имя"
+
+#: templates/checkout/receipt.html:13
+#: templates/registration/order_detail.html:13
+msgid "Price"
+msgstr "Цена"
+
+#: templates/checkout/receipt.html:14
+#: templates/registration/order_detail.html:14
+msgid "Quantity"
+msgstr "Количество"
+
+#: templates/checkout/receipt.html:15
+#: templates/registration/order_detail.html:15
+msgid "Total"
+msgstr "Сумма"
+
+#: templates/checkout/receipt.html:22
+#: templates/registration/order_detail.html:21
+msgid "Order total:"
+msgstr "Общая сумма"
+
+#: templates/common_templates/catalog.html:16
+msgid "Some parts of"
+msgstr "Некоторые разделы"
+
+#: templates/common_templates/catalog.html:18
+msgid "require JavaScript"
+msgstr "требуют JavaScript"
+
+#: templates/errors/404.html:4
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: templates/errors/404.html:6
+msgid "Sorry, we could not find the page you are asking for."
+msgstr "К сожалению, мы не смогли найти запрошенную вами страницу."
+
+#: templates/errors/404.html:8
+msgid "We apologise for any inconvenience, please try again later."
+msgstr "Просим прощения за возможные неудобства. Пожалуйста, попробуйте позже."
+
+#: templates/errors/500.html:4
+msgid "Internal server error"
+msgstr "Внутренняя ошибка сервера"
+
+#: templates/errors/500.html:6
+msgid "Sorry, something bad happened while processing this page."
+msgstr "Что-то нехорошее произошло во время обработки этой страницы."
+
+#: templates/errors/500.html:8
+msgid "We apologise for any inconvenience, please try again later"
+msgstr "Просим прощения за возможные неудобства. Пожалуйста, попробуйте позже."
+
+#: templates/registration/auth_box.html:8
+msgid "Logout"
+msgstr "Выход"
+
+#: templates/registration/auth_box.html:12
+msgid "SignUp"
+msgstr "Регистрация"
+
+#: templates/registration/auth_box.html:19
+#: templates/registration/login_form.html:10
+#: templates/registration/login_form.html:26
+msgid "Login"
+msgstr "Вход"
+
+#: templates/registration/logged_out.html:5
+msgid "You've logged out!"
+msgstr "Вы вышли из системы."
+
+#: templates/registration/login_form.html:4
+msgid "You entered an invalid username or password"
+msgstr "Похоже, Вы ввели неверный логин или пароль"
+
+#: templates/registration/my_account.html:7
+msgid "Welcome,"
+msgstr "Здравствуйте, "
+
+#: templates/registration/my_account.html:11
+msgid "Order History"
+msgstr "История заказов"
+
+#: templates/registration/my_account.html:28
+msgid "You have no past orders"
+msgstr "У Вас нет прошлых заказов "
+
+#: templates/registration/my_account.html:36
+msgid "Account settings"
+msgstr "Настройки аккаунта"
+
+#: templates/registration/my_account.html:41
+msgid "Change Password"
+msgstr "Сменить пароль"
+
+#: templates/registration/my_account.html:46
+msgid "Edit billing/shipping Information"
+msgstr "Редактировать расчётныую информацию или адрес"
+
+#: templates/registration/order_detail.html:8
+msgid "Details for order number"
+msgstr "Детали заказа номер"
+
+#: templates/registration/order_info.html:22
+msgid "Save information"
+msgstr "Сохранить информацию"
+
+#: templates/registration/password_change_done.html:6
+msgid "Password changed"
+msgstr "Пароль изменён"
+
+#: templates/registration/password_change_done.html:9
+msgid "Continue shopping"
+msgstr "Продолжить покупки"
+
+#: templates/registration/password_change_form.html:7
+msgid "Change password"
+msgstr "Сменить пароль."
+
+#: templates/registration/password_change_form.html:11
+msgid "Change"
+msgstr "Изменить"
+
+#: templates/registration/register.html:6
+#: templates/registration/register.html:12
+msgid "Register"
+msgstr "Зарегистрировать"
+
+#: templates/registration/register.html:7
+msgid "Sign up for yoour account"
+msgstr "Заведите аккаунт"
+
+#: templates/registration/register.html:12
+msgid "Submit"
+msgstr "Разместить"
+
+#: templates/search/results.html:7
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: templates/search/results.html:12
+msgid "Sorry, right now we don't have anything matching your query"
+msgstr "К сожалению, мы не смогли найти ничего соответствующего Вашему запросу"
+
+#: templates/tags/cart_box.html:4
+msgid "Shopping cart"
+msgstr "Корзина"
+
+#: templates/tags/cart_box.html:6
+msgid "Item"
+msgstr "Позиция"
+
+#: templates/tags/footer.html:2
+msgid "Home"
+msgstr "На главную"
+
+#: templates/tags/invite_to_login.html:5
+msgid "Already have an account?"
+msgstr "У Вас уже есть аккаунт?"
+
+#: templates/tags/invite_to_login.html:6
+msgid "Sign in now!"
+msgstr "Самое время войти."
+
+#: templates/tags/pagination_links.html:5
+#: templates/tags/pagination_links.html:8
+msgid "Previous"
+msgstr "Предыдущий
+
+#: templates/tags/pagination_links.html:10
+msgid "of"
+msgstr "из"
+
+#: templates/tags/pagination_links.html:13
+#: templates/tags/pagination_links.html:16
+msgid "Next"
+msgstr "Следующий"
+
+#: tradenplay/settings.py:85
 msgid "Russian"
 msgstr "Русский"
 
-#: tradenplay/settings.py:82
+#: tradenplay/settings.py:86
 msgid "English"
 msgstr "Английский"
 
-#: tradenplay/settings.py:237
+#: tradenplay/settings.py:290
 msgid "account/"
 msgstr "аккаунт"
 
-#: tradenplay/settings.py:237
+#: tradenplay/settings.py:290
 msgid "signin/"
 msgstr "Вход"
+
+#: utils/aux_utils.py:42
+msgid "Please reconstruct your model so that it has a 'title' or"
+msgstr "Пожалуйста реализуйте в Вашей модели свойство 'name' или 'title'"

@@ -43,6 +43,7 @@ urlpatterns += patterns('',
     #url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^search/', include('search.urls')),
     url(r'', include('marketing.urls')),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 )
 
 if 'rosetta' in settings.INSTALLED_APPS:
@@ -50,6 +51,6 @@ if 'rosetta' in settings.INSTALLED_APPS:
                             url(r'^rosetta/', include('rosetta.urls')),
                             )
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 handler500 = 'utils.views.view_500'
 handler404 = 'utils.views.view_404'
