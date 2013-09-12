@@ -1,7 +1,7 @@
 
 static/js/jquery-ui-1.10.3.custom/
 django-debug-toolbar-master
-tradenplay/settings.py
+tradenplay/private_settings.py
 log/*.log
 nppBackup/
 *.zip
