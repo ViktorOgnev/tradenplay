@@ -49,7 +49,7 @@
         <h3>Product Description</h3>
         <span property="v:description">{{ product.description }}</span>
         
-</div>
+    </div>
     
     
 	<div class="cb"><br /><br /></div>
@@ -74,7 +74,7 @@
     </form>
     {% else %}
     <a href="{% url accounts_log_in %}?next={{ request.path }}">
-        Log in to tag this product.
+    Log in to tag this product.
     </a>
     {% endif %}
 	<div class="cb"><br /><br /></div>
@@ -109,12 +109,27 @@
     {% include page_template %}
     <div class="cb"><br /><br /></div>
     
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'tradenplay'; // required: replace example with your forum shortname
+        
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
-{% endblock %}
-
-{% block js %}
-        {{ block.super }}
-        <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
-        <script src="{{ STATIC_URL }}js/endless-pagination.js"></script>
-        <script>$.endlessPaginate({paginateOnScroll: false});</script>
-{% endblock %}
+    
+    {% endblock %}
+    
+    {% block js %}
+    {{ block.super }}
+    <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+    <script src="{{ STATIC_URL }}js/endless-pagination.js"></script>
+    <script>$.endlessPaginate({paginateOnScroll: false});</script>
+    {% endblock %}    
