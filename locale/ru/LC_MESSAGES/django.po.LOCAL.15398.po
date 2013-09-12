@@ -417,11 +417,7 @@ msgstr "Самое время войти."
 #: templates/tags/pagination_links.html:5
 #: templates/tags/pagination_links.html:8
 msgid "Previous"
-<<<<<<< HEAD
 msgstr "Предыдущий"
-=======
-msgstr "Предыдущий
->>>>>>> 9c64a75bc15abd340673ab78dcce49226973aa75
 
 #: templates/tags/pagination_links.html:10
 msgid "of"
