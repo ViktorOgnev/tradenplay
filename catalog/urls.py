@@ -27,4 +27,7 @@ urlpatterns = patterns('catalog.views',
         
     url(r'^tag/product/add/$', 'add_tag',
         name='catalog_product_add_tag'),
+    
+    url(r'^autocomplete$', 'autocomplete_products',
+        name='catalog_autocomplete_products')
 )

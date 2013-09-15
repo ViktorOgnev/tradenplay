@@ -186,6 +186,8 @@ $(function()
         },
     });
 }); */
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // toggles visibility of "write review" link
 // and the review form.
@@ -230,4 +232,3 @@ function prepareDocument(){
 }
 
 $(document).ready(prepareDocument());
-        

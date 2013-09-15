@@ -1,4 +1,15 @@
 {% load i18n %}
+<script>
+    $(document).ready(
+        function(){
+            $( "input#id_q" ).autocomplete({
+                    source: "{% url catalog_autocomplete_products %}",
+                    minLength: 2
+            });
+        }
+    );
+</script>
+
 <form id="search" action="{% url search_results %}" method="get">
     <h3>
         <label for="id_q">

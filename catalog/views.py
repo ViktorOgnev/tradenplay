@@ -185,5 +185,12 @@ def tag(request, tag, template_name="catalog/tag.html"):
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
                               
-
+def autocomplete_products(request):
+    term = request.GET.get('term', '')
+    products = Product.active.values("name").filter(name__istartswith=term)
+    product_list = [product["name"] for product in products] 
+    json_response = simplejson.dumps(product_list)
+    return HttpResponse(json_response, 
+                        content_type='application/javascript; charset=utf-8')
+    
 
