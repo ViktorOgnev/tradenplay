@@ -3,12 +3,13 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from tinymce.widgets import TinyMCE
+from image_cropping import ImageCroppingMixin
 
 from .models import Category, Product, ProductReview
 from .forms import ProductAdminForm
 
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImageCroppingMixin, admin.ModelAdmin):
 
     form = ProductAdminForm
 
@@ -42,6 +43,7 @@ class ProductAdmin(admin.ModelAdmin):
     class Media:
         js = ['js/admin/display_thumbs.js',
               '/static/admin/js/tiny_django_browser.js']
+        
 
 
 admin.site.register(Product, ProductAdmin)

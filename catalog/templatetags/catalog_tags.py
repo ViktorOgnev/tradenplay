@@ -29,20 +29,25 @@ def product_list(products, header_text):
 
 @register.inclusion_tag("tags/category_list.html")
 def category_list(request_path):
+    """
+    Represent a nested category strucure in django-template-friendly manner
+    
+    """
     list_cache_key = 'active_category_link_list'
     active_categories = cache.get(list_cache_key)
     if not active_categories:
-        active_categories = _generate_category_list()
+        category_structure_list = _generate_category_list()
         cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
     return {
-        'active_categories': active_categories,
+        'category_structure_list': category_structure_list,
         'request_path': request_path
     }
+    
 #"TODO: add simple caching"
 def _generate_item_list(input_list, result=None):
     """
     Walk recursively over a list of objects and convert a tree into a list 
-    having "in", "out" and  "flat" nesting descriptors.
+    having "in" and  "out" (and maybe "flat") nesting descriptors.
     
     """
     if result is None: result = [] 
@@ -63,15 +68,28 @@ def _generate_item_list(input_list, result=None):
     
 def _generate_category_list():
     """
-    Generates a flat list(a listhaving no nested datastructures like list or dict)
-    of categories' tree structure. 
+    Generates a list of dictionaries representing a categories tree structure.
     The core functionality is into _generate_category_list function.
-    Nested items are marked by preceding "in"  and following "out" elements.
-    In order to work properly this funcionality requires a category tree
+    Each dictionary contains a template action and an object required to
+    execute that action.
+    In order to work properly this function requires a category tree
     root having a name property 'invisible_root_category'.
     
     """
     root = Category.objects.get(name='invisible_root_category')
     level_one_branches = Category.active.filter(parent_categories=root)
-    return  _generate_item_list(level_one_branches)
+    simple_list = _generate_item_list(level_one_branches)
+    simple_list = simple_list[1:-1]
+    result = []
+    max_index = len(simple_list) - 1 
+    for index, item in enumerate(simple_list):
+        if index != max_index and simple_list[index+1] == "in":
+            continue
+        elif item == "in":
+            result.append({'action':'open_nested_menu', 'object': simple_list[index - 1]})
+        elif item == "out":
+            result.append({'action':'close_nested_menu', 'object': None })
+        else:
+            result.append({'action':'add_menu_item', 'object': item })
+    return  result
     

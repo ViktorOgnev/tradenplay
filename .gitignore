@@ -1,5 +1,6 @@
 
 static/js/jquery-ui-1.10.3.custom/
+templatemo_341_web_store/
 django-debug-toolbar-master
 tradenplay/private_settings.py
 log/*.log

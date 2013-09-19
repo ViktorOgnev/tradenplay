@@ -10,14 +10,9 @@
     );
 </script>
 
-<form id="search" action="{% url search_results %}" method="get">
-    <h3>
-        <label for="id_q">
-            {% trans "Search" %}
-        </label>
-    </h3>
-    <div style="text-align:right;">
-        {{ form.q }}
-        <input type="submit" value="Search" />
+<form id="search" class="navbar-search" action="{% url search_results %}" method="get">
+    <div >
+        <input type="text" placeholder="Search" class="search-query" id="id_q"/>
     </div>
 </form>
+

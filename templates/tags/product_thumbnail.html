@@ -1,8 +1,13 @@
 <div class="product_thumbnail">
-	<a href="{% url catalog_product slug=product.slug %}">
-		<img class="bn resizable_image category_img" src="{{ product.image_url }}" alt="{{ product.name }}"  />
-		<br />
-		{{ product.name }}
+	<a class="thumbnail" href="{% url catalog_product slug=product.slug %}">
+		{% if product.thumbnail_url %}
+			<img class="img-polaroid img-resize" src="{{ product.thumbnail_url }}" alt="{{ product.name }}"  />
+			<br />
+		{% else %}
+			<img class="img-polaroid img-resize" src="{{ product.image_url }}" alt="{{ product.name }}"  />
+			<br />
+		{% endif %}
+		<h5>{{ product.name }}</h5>
         
 	</a>
 </div>

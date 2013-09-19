@@ -1,25 +1,38 @@
 {% load i18n %}
 
 
-<h3> {% trans "Categories" %} </h3>
-<ul id="categories">
-{% with active_categories as categories %}
+
+<a href="" class="dropdown-toggle" data-toggle="dropdown">
+    {% trans "Categories" %} 
+    <b class="caret"></b>
+</a>
+<ul class="dropdown-menu">
+{% with category_structure_list as struct_list %}
     
-    {% for category in categories %}
-        {% if category == "in" %}
-            <ul>
-        {% elif category == "out" %}
-            </ul>
+    {% for item in struct_list %}
+        {% if item.action == "open_nested_menu" %}
+           
+            <li class="dropdown-submenu">
+                <a href="{% url catalog_category slug=item.object.slug %}" tabindex="-1">  
+                {{ item.object.name }}
+                </a>           
+                 <ul class="dropdown-menu">   
+            
+        {% elif item.action == "close_nested_menu" %}
+                </ul>    
+            </li>
+        
         {% else %}
-            <li>
-                {% ifequal category.get_absolute_url request_path %}
-                    {{ category.name }}<br />
+            <li class="">
+                {% ifequal item.object.get_absolute_url request_path %}
+                    {{ item.object.name }}
                 {% else %}
-                    <a href="{% url catalog_category slug=category.slug %}" class="category">
-                        {{ category.name }}
-                    </a><br />
+                    <a href="{% url catalog_category slug=item.object.slug %}" tabindex="-1">
+                        {{ item.object.name }}
+                    </a>
                 {% endifequal %}
             </li>
+            
         {% endif %}
     {% endfor %}
 {% endwith %}   

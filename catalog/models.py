@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
 import tagging
+from image_cropping import ImageRatioField
 
 from caching.caching_utils import cache_update, cache_evict
 from utils.aux_utils import transliterate, get_image_path, produce_resized_image
@@ -83,6 +84,10 @@ class CatalogModelBase(models.Model):
     thumbnail_url = models.CharField(
         max_length=255, editable=False, blank=True,
         null=True)
+    # https://github.com/jonasundderwolf/django-image-cropping
+    cropping = ImageRatioField('image', '430x360') 
+    
+    
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
     
@@ -112,7 +117,7 @@ class CatalogModelBase(models.Model):
             self.thumbnail_url = self.thumbnail.url
         elif self.image:
             dir, name = os.path.split(self.image.url)
-            self.thumbnail_url = os.path.join(dir, 'thumbnail' + newname)
+            self.thumbnail_url = os.path.join(dir, 'thumbnail' + name)
 
         super(CatalogModelBase, self).save(force_insert, force_update)
 

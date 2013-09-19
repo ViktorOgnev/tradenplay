@@ -29,6 +29,12 @@ def index(request, template_name="catalog/index.html"):
     context["view_recs"] = stat_utils.recommend_from_views(request)
     context["page_title"] = _('Tradenplay.com - the best place \
                               to trade your music stuff')
+    bestsellers = Product.active.values().filter(is_bestseller=True)
+    context["bestsellers"] = []
+    for i, item in enumerate(bestsellers):
+        if i % 6 == 0:
+            context["bestsellers"].append([])
+        context["bestsellers"][-1].append(item)
 
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
