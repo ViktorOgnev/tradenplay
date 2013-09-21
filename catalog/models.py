@@ -112,7 +112,6 @@ class CatalogModelBase(models.Model):
         newname = transliterate(self.name[0:20])
         if self.image:
             self.image_url = self.image.url
-
         if self.thumbnail:
             self.thumbnail_url = self.thumbnail.url
         elif self.image:

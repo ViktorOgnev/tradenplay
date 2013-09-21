@@ -39,9 +39,9 @@
             </ul>
         </li>
     </ul>
-
+    
     <!-- Discounts carousel -->
-
+    
     <div class="span7 pull-right">
         <div class="carousel slide" id="discounts-carousel">
             <ol class="carousel-indicators">
@@ -80,58 +80,60 @@
 
 <!-- Bestsellers carousel -->
 
-<div class="span12 pull-right">
+<div class="container">
+    <div class="span12 pull-right">
         <div class="carousel slide" id="bestsellers-carousel">
             <ol class="carousel-indicators">
                 {% for row in bestsellers %}
-                    <li data-target="#bestsellers-carousel" data-slide-to="{{forloop.conunter}}" </li>
+                    <li data-target="#bestsellers-carousel" data-slide-to="{{forloop.conunter}}"></li> 
                 {% endfor %}
+                
             </ol>
-            
-            
-            <div class="carousel-inner">
-                {% for row in bestsellers %}
+                
+                
+                <div class="carousel-inner">
+                    {% for products in bestsellers %}
                     <div class="item active">
-                        <ul class="inline">
-                            {% for product in row %}
-                                <li class="span3">
-                                    {% include 'tags/product_thumbnail.html' %}
-                                </li>
-                            {% endfor %}
+                        {% product_list products '' %}
                         </ul>
-                        <div class="carousel-caption">
+                        <!--
+                            <div class="carousel-caption">
                             <h4>Some title</h4>
                             <p>Some description.</p>
-                        </div>
+                            </div>
+                        -->
                     </div>
                     
-                {% endfor %}
-            </div>
-            
-            <a href="#bestsellers-carousel" class="carousel-control left" data-slide="prev">‹</a>
-            <a href="#bestsellers-carousel" class="carousel-control right" data-slide="next">›</a>
+                    {% endfor %}
+                </div>
+                
+                <a href="#bestsellers-carousel" class="carousel-control left" data-slide="prev">‹</a>
+                <a href="#bestsellers-carousel" class="carousel-control right" data-slide="next">›</a>
         </div>
     </div>
-<hr />
-
-<!-- Recent, Similiar, Featured, Recommended -->
-
-<ul class="inline">
-    <li class="span3">
-        {% product_list recently_viewed 'Your Recently Viewed' %}
-    </li>
-    <li class="span3">
-        {% product_list view_recs 'Similar Products' %}
-    </li>
-    <li class="span3">
-        {% product_list featured 'Featured Products' %}
-
-    </li>
-    <li class="span3">
-        {% product_list search_recs 'Recommended For You' %}
-    </li>
+   
+</div>
+ <div class="row"><hr  class="info"/></div>
+ 
     
+    <!-- Recent, Similiar, Featured, Recommended -->
     
-    
-</ul>
+    <ul class="inline">
+        <li class="span3">
+            {% product_list recently_viewed 'Your Recently Viewed' %}
+        </li>
+        <li class="span3">
+            {% product_list view_recs 'Similar Products' %}
+        </li>
+        <li class="span3">
+            {% product_list featured 'Featured Products' %}
+            
+        </li>
+        <li class="span3">
+            {% product_list search_recs 'Recommended For You' %}
+        </li>
+        
+        
+        
+    </ul>
 {% endblock %}
