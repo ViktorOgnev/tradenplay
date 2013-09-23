@@ -28,39 +28,38 @@
             <div class="container">
                 <a href="{% url catalog_home %}" class="brand">{{ site_name|capfirst }}</a>
                 {% include 'tags/navigation.html' %}
-                              
-                
-                
-                <!--  ////////////////////////////////////////////////////////////-->
-                <div class="tabbable">
-                    <ul class="nav nav-tabs ">
-                        <li class="active"><a href="#tab1" data-toggle="tab">Link 1</a></li>
-                        <li><a href="#tab2" data-toggle="tab">Link 2</a></li>
-                        <li><a href="#tab3" data-toggle="tab">Link 3</a></li>
-                        <li><a href="#tab4" data-toggle="tab">Link 4</a></li>
-                        <li class="dropdown" >
-                            {% category_list request.path %}
-                        </li>
-                    </ul>
-                
-                </div> 
+                <ul class="inline">
+                    <li class="span5">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs ">
+                                <li class="active"><a href="#tab1" data-toggle="tab">Link 1</a></li>
+                                <li><a href="#tab2" data-toggle="tab">Link 2</a></li>
+                                <li><a href="#tab3" data-toggle="tab">Link 3</a></li>
+                                <li><a href="#tab4" data-toggle="tab">Link 4</a></li>
+                                <li class="dropdown" >
+                                    {% category_list request.path %}
+                                </li>
+                            </ul>
+                        </div> 
+                    </li>
+                    <li class="span3">
+                        {% include "tags/search_box.html" %}
+                    </li>
+                    <li class="span1">
+                        <div class="span1 pull-right">
+                            {% cart_box request %}
+                        </div>
+                    </li>  
+                </ul>
             </div>
-        </div>
-            
-            
-            
-            
-        
+        </div>    
     </div>
+    
     
     <div class="container">
         <div id="navigation">
-            <div class="navIEPadder">
-                
-            </div>
-            
+            <div class="navIEPadder"></div>
             <div id="middle">
-                
                 <div id="content">
                     <a name="content"></a>
                     <div class="contentIEPadder">
@@ -72,9 +71,9 @@
                 <div class="footerIEPadder">
                     {% footer_links %}
                     <div class="cb"></div>
-                    </div>
                 </div>
             </div>
         </div>
-        {% endblock %}
+    </div>
+    {% endblock %}
 </div>

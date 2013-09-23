@@ -4,8 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from tinymce.widgets import TinyMCE
 from image_cropping import ImageCroppingMixin
+from solo.admin import SingletonModelAdmin
 
-from .models import Category, Product, ProductReview
+from .models import Category, Product, ProductReview, HomepageSeoText
 from .forms import ProductAdminForm
 
 
@@ -71,5 +72,9 @@ class ProductReviewAdmin(admin.ModelAdmin):
     ordering = ['date']
     search_fields = ['user', 'content', 'title']
 
-
 admin.site.register(ProductReview, ProductReviewAdmin)
+
+# class HomepageSeoTextAdmin(SingletonModelAdmin, admin.ModelAdmin):
+    # list_display = ('seo_text',)
+    
+admin.site.register(HomepageSeoText, SingletonModelAdmin)

@@ -17,7 +17,7 @@ from cart import cart_utils
 from stats import stat_utils
 from tradenplay.settings import PRODUCTS_PER_ROW, CACHE_TIMEOUT
 
-from .models import Category, Product, ProductReview
+from .models import Category, Product, ProductReview, HomepageSeoText
 from .forms import ProductAddToCartForm, ProductReviewForm
 
 
@@ -35,6 +35,8 @@ def index(request, template_name="catalog/index.html"):
         if i % 6 == 0:
             context["bestsellers"].append([])
         context["bestsellers"][-1].append(item)
+        
+    context["seo_text"] = HomepageSeoText.objects.get(pk=1).seo_text
 
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
@@ -75,7 +77,7 @@ def show_product(request,
     context = {}
     context['product'] = product
     stat_utils.log_product_view(request, product)
-
+    
     context['categories'] = product.categories.all()
     context['page_title'] = product.name
     context['meta_keywords'] = product.meta_keywords

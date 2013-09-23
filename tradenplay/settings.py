@@ -245,6 +245,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'easy_thumbnails', # 'https://github.com/jonasundderwolf/django-image-cropping'
     'image_cropping',
+    'solo',  # https://github.com/lazybird/django-solo
     
     # Custom build.
     'catalog',

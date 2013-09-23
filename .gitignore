@@ -4,6 +4,7 @@ templatemo_341_web_store/
 django-debug-toolbar-master
 tradenplay/private_settings.py
 log/*.log
+media/upfiles/*
 nppBackup/
 *.zip
 *.tar

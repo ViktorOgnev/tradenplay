@@ -10,6 +10,9 @@ from django.utils.safestring import mark_safe
 
 import tagging
 from image_cropping import ImageRatioField
+from solo.models import SingletonModel # https://github.com/tttallis/django-singletons
+from tinymce import models as tinymce_models
+
 
 from caching.caching_utils import cache_update, cache_evict
 from utils.aux_utils import transliterate, get_image_path, produce_resized_image
@@ -258,6 +261,19 @@ class ProductReview(models.Model):
     is_approved = models.BooleanField(default=True)
     content = models.TextField()
 
+
+class HomepageSeoText(SingletonModel):
+    
+    seo_text = tinymce_models.HTMLField(blank=True, null=True,
+                                        help_text="""You can use HTML markup - be
+                                        careful!""")
+                                        
+    def __unicode__(self):
+        return u"The HomePage SEO-text"
+        
+    class Meta:
+        verbose_name = _(u"The HomePage SEO-text")
+        verbose_name_plural = _(u"The HomePage SEO-text")
 
 post_save.connect(cache_update, sender=Product)
 post_delete.connect(cache_evict, sender=Product)

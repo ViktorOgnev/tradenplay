@@ -95,13 +95,7 @@
                     {% for products in bestsellers %}
                     <div class="item active">
                         {% product_list products '' %}
-                        </ul>
-                        <!--
-                            <div class="carousel-caption">
-                            <h4>Some title</h4>
-                            <p>Some description.</p>
-                            </div>
-                        -->
+                        
                     </div>
                     
                     {% endfor %}
@@ -113,7 +107,7 @@
     </div>
    
 </div>
- <div class="row"><hr  class="info"/></div>
+<div class="row"><hr  class="info"/></div>
  
     
     <!-- Recent, Similiar, Featured, Recommended -->
@@ -136,4 +130,9 @@
         
         
     </ul>
+<hr />
+    
+<div class="container">
+    <p class="info">{{ seo_text }}</p>
+</div>    
 {% endblock %}

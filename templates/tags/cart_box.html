@@ -1,10 +1,10 @@
+{# Usage: "cart_box request" #}
 {% load i18n %}
 {% with cart_item_count as cart_count %}
-    <a href="{% url show_cart %}">
-        {% trans "Shopping cart" %}
-        <br/>
-        {{ cart_count }} {% trans "Item" %} {{ cart_count|pluralize}}
-    <a/>
+<a href="{% url show_cart %}">
+    <i class="icon-shopping-cart icon-white"> </i>
+    {{ cart_count }} 
+<a/>
 {% endwith %}
 
 
