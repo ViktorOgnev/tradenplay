@@ -5,56 +5,100 @@
 
 {% block content %}
 <div xmlns:v="http://rdf.data-vocabulary.org/#" about="{{ product.get_absolute_url }}" typeof="v:Product">
-    <div class="product_image" >
-        <img class="resizable_image"src="{{ product.image_url }}" alt="{{ product.name }}" />
-        <br />
-        {{ product.image_caption }}
-    </div>
-    <h1><span property="v:name">{{ product.name }}</span></h1>
-    Brand: <em><span property="v:brand">{{ product.brand }}<span></em>
-        <br /><br />
-        SKU: {{ product.sku }}
-        <br />
-        In categor{{ categories.count|pluralize:"y,ies" }}: 
-        {% for c in categories %}
-        <a href="{{ c.get_absolute_url }}">
-        <span property="v:category">
-            {{ c.name }}
-        </span>
-        </a>
-        {% if not forloop.last %}, {% endif %}
-        {% endfor %}
-        <br /><br />
-        {% if product.sale_price %}
-        Was: <del>{{ product.old_price|currency }}</del>
-        <br />
-        Now: <span property="v:price">{{ product.price|currency }}</span>
-        {% else %}
-        Price: <span property="v:price">{{ product.price|currency }}</span>
-        {% endif %}
-        <br /><br />
-        <form method="post" action="." class="cart">
-            {{ form.as_p }}
-            <br />
-            <input type="submit" value="Add To Cart" name="submit" alt="Add To Cart" />
-        </form>
-        <div class="cb"><br /><br /></div>
-        <h3>Related Products</h3>
-        {% for p in product.cross_sells_hybrid %}
-        {% include 'tags/product_thumbnail.html' %}
-        {% empty %}
-        No related products.
-        {% endfor %}
-        <div class="cb"><br /><br /></div>
-        <h3>Product Description</h3>
-        <span property="v:description">{{ product.description }}</span>
+    <div class="span12">
+        <div class="span5" >
+            <img src="{{product.image.url}}" alt="{{product.image_caption}}" />
+            {{ product.image_caption }}
+        </div>
         
+        <div class="span6  vertical-border-left">
+        
+            
+            <h1><span property="v:name">{{ product.name }}</span></h1>
+            <ul class="inline">
+                <li><p>{% trans "Brand:"%}</p> </li>
+                <li>
+                    <p>
+                        <em>
+                            <span property="v:brand">
+                                <h4 class="text-warning">{{ product.brand }}</h4>
+                            <span>
+                        </em>
+                    </p>
+                </li>
+            </ul>
+                    
+                    
+            <br />
+            {% trans "SKU:"%} {{ product.sku }}
+            <br />
+            In categor{{ categories.count|pluralize:"y,ies" }}: 
+            {% for c in categories %}
+                <a href="{{ c.get_absolute_url }}">
+                <span property="v:category">
+                    {{ c.name }}
+                </span>
+                </a>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            <br /><br />
+            <div class="price">
+                {% if product.sale_price %}
+                    <p class="text-error muted">{% trans "Was:" %} <del>{{ product.old_price|currency }}</del></p>
+                <br />
+                <p class="text-warning">{% trans "Now:" %} <span property="v:price">{{ product.price|currency }}</span></p>
+                {% else %}
+                    <p class="text-success">{% trans "Price:" %} <span property="v:price">{{ product.price|currency }}</span></p>
+                {% endif %}
+            </div>
+            
+            <div class="to-cart">
+                <form method="post" action="." class="span1 form-inline">
+                    <div>{{form.errors}}</div>
+                    <div class="input-append ">
+                        <label for="id_quantity">
+                            {% trans "Quantity:"%}
+                        </label>
+                        <input name="quantity" id="id_quantity"  class="quantity form-control input-mini" type="number" value="1" size="2" >
+                        <input type="hidden" name="slug" value="testproduct3" id="id_slug">
+                        <button class="btn btn-info btn-large"type="submit">
+                            <i class="icon-shopping-cart"></i>
+                        </button>
+                    </div>    
+                </form>
+            </div>
+            <br /><br /><br /><br /><br /><br />
+            
+        </div>
     </div>
+</div>
+<div class="span12">
+    <hr />
+</div>
+<div class="product-info span7 vertical-border-right">
+    <h3>Product Description</h3>
+    <span property="v:description">{{ product.description }}</span>        
+    <div class="cb"><br /><br /></div>
+    <div class="cb"><br /></div>
+    <div>
+    	<hr />
+    </div>
+    <h3>Related Products</h3>
+    {% for p in product.cross_sells_hybrid %}
+        {% include 'tags/product_thumbnail.html' %}
+    {% empty %}
+        No related products.
+    {% endfor %}
+    <div class="cb"><br /><br /></div>
+    <div>
+    	<hr />
+    </div>
+</div>
+
+<div class="product-tags span4 pull-right">
     
-    
-	<div class="cb"><br /><br /></div>
-	<h3>Product Tags</h3>
-    
+    <h4>Product Tags</h4>
+
     <div id="tags">
         {% for tag in product.tags %}
         {% include 'catalog/tag_link.html' %}
@@ -77,11 +121,15 @@
     Log in to tag this product.
     </a>
     {% endif %}
-	<div class="cb"><br /><br /></div>
-	<h3>Product Reviews</h3>
+    <div class="cb"><br /><br /></div>
+</div>
+
+
+<div class="reviews span4 pull-right">
+    <h4>Product Reviews</h4>
     {% if request.user.is_authenticated %}
     <a id="add_review">Write a Review</a>
-	<div id="review_form">
+    <div id="review_form">
         <form id="review" action="{% url catalog_product_add_review %}" method="post">
             <div id="review_errors"></div>
             <table>
@@ -103,12 +151,15 @@
     Log in to write your own review.
     </a>
     {% endif %}
-    
+
     <div class="cb"><br /><br /></div>
-    
+
     {% include page_template %}
     <div class="cb"><br /><br /></div>
-    
+</div>
+
+<div class="span7 disqus-comments">
+    <br /><br />
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -123,13 +174,14 @@
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    
-    
-    {% endblock %}
-    
-    {% block js %}
-    {{ block.super }}
-    <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
-    <script src="{{ STATIC_URL }}js/endless-pagination.js"></script>
-    <script>$.endlessPaginate({paginateOnScroll: false});</script>
-    {% endblock %}    
+
+
+</div>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+<script src="{{ STATIC_URL }}js/endless-pagination.js"></script>
+<script>$.endlessPaginate({paginateOnScroll: false});</script>
+{% endblock %}                    

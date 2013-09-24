@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 import tagging
 from image_cropping import ImageRatioField
-from solo.models import SingletonModel # https://github.com/tttallis/django-singletons
+from solo.models import SingletonModel 
 from tinymce import models as tinymce_models
 
 

@@ -2,3 +2,21 @@ img.img-resize{
     max-width: 180px;
     height: auto;
 }
+
+input.quantity{
+    height: 35px;
+    font-size: 25px;
+}
+div.price{
+    font-size: 20px;
+}
+
+div.vertical-border-right{
+    padding-right:20px; 
+    border-right: 1px solid #ccc;
+}
+
+div.vertical-border-left{
+    padding-left:20px; 
+    border-left: 1px solid #ccc;
+}
