@@ -5,6 +5,7 @@
 function productReviewSuccess(json_response){
     $("#review_errors").empty();
     // evaluate the "success" parameter
+    console.log("productReviewSuccess have been called");
     if(json_response.success == "True"){
         // disable the submit button to prevent duplicates
         $("#submit_review").attr('disabled','disabled');
@@ -215,9 +216,9 @@ function prepareDocument(){
     });
     // Prepare product review form
     $("form#review").submit(function(evnt){ajaxSubmit(evnt, productReviewSuccess);});
-    $("#review_form").addClass('hidden');
-    $("#add_review").click(slideToggleReviewForm);
-    $("#add_review").addClass('visible');
+    // $("#review_form").addClass('hidden');
+    // $("#add_review").click(slideToggleReviewForm);
+    // $("#add_review").addClass('visible');
     $("#cancel_review").click(slideToggleReviewForm);
     // Tagging functionality
     $("form#tag").submit(function(event){ajaxSubmit(event, tagSuccess);});

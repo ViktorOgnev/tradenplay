@@ -5,7 +5,9 @@ django-debug-toolbar-master
 tradenplay/private_settings.py
 log/*.log
 media/upfiles/*
+media/
 nppBackup/
+*.pyc
 *.zip
 *.tar
 *.gz
