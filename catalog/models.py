@@ -185,12 +185,24 @@ class Category(CatalogModelBase):
             # object = self.__class__.objects.get(pk=item['pk'])
             # object.parent_categories.add(self)  
             
-        
+class Brand(models.Model):
+    
+    name = models.CharField(max_length="255")
+    logo = models.ImageField(upload_to=get_image_path)
+    offsite_url = models.CharField(max_length="100")
+    description = models.TextField(blank=True)
+    
+    class Meta:
+        verbose_name = _("Brand")
+        verbose_name_plural = _("Brands")
+    
+    def __unicode__(self):
+        return self.name        
 
 class Product(CatalogModelBase):
 
     
-    brand = models.CharField(max_length=100)
+    brand = models.ForeignKey(Brand, null=True)
     sku = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=9, decimal_places=2,
                                 blank=True, null=True, default=Decimal('1.00'))
@@ -234,6 +246,7 @@ except tagging.AlreadyRegistered:
     pass
 
 
+    
 class ActiveProductReviewManager(models.Manager):
 
     """

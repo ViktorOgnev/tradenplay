@@ -6,7 +6,7 @@ from tinymce.widgets import TinyMCE
 from image_cropping import ImageCroppingMixin
 from solo.admin import SingletonModelAdmin
 
-from .models import Category, Product, ProductReview, HomepageSeoText
+from .models import Category, Product, ProductReview, HomepageSeoText, Brand
 from .forms import ProductAdminForm
 
 
@@ -78,3 +78,9 @@ admin.site.register(ProductReview, ProductReviewAdmin)
     # list_display = ('seo_text',)
     
 admin.site.register(HomepageSeoText, SingletonModelAdmin)
+
+class BrandAdmin(admin.ModelAdmin):
+    
+    list_display = ('pk', 'name')
+    
+admin.site.register(Brand, BrandAdmin)

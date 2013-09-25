@@ -15,18 +15,24 @@
         
             
             <h1><span property="v:name">{{ product.name }}</span></h1>
-            <ul class="inline">
+            <ul class="inline pull-right">
                 <li><p>{% trans "Brand:"%}</p> </li>
                 <li>
                     <p>
                         <em>
                             <span property="v:brand">
-                                <h4 class="text-warning">{{ product.brand }}</h4>
+                                <a rel="nofollow" href="{{ product.brand.offsite_url }}">
+                                    <h4 class="text-warning">{{ product.brand }}</h4>
+                                </a>
                             <span>
                         </em>
                     </p>
                 </li>
             </ul>
+            <a rel="nofollow" href="{{ product.brand.offsite_url }}" class="">
+                <img src="{{ product.brand.logo.url }}" alt="" />
+            </a>
+            
                     
                     
             <br />
