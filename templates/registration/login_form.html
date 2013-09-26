@@ -5,26 +5,39 @@
 </ul>
 <br />
 {% endif %}
-<form id="login_form" method="post" action="{% url accounts_log_in %}">
+<form id="login_form" class="form-horisontal" method="post" action="{% url accounts_log_in %}">
     {% csrf_token %}
     <table summary="{% trans 'Login' %}" id="login">
-       <!-- {% comment %}  <caption>{% trans "Login" %}</caption>
-        <tr>    
-            <td>{{ form.username.label_tag }}:</td>
-            <td>{{ form.username }} </td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}: </td>
-            <td>{{ form.password}}: </td>
-        </tr>
-        {% endcomment %} -->
-        {{ form.as_table }}
+        {% if not form %}
+            <tr>
+               <th>
+                   <label for="id_username" >Username:</label>
+               </th>
+               <td>
+                   <input id="id_username"  class="input-medium" type="text" name="username" maxlength="30" />
+               </td>
+           <tr>
+               <th>
+                   <label for="id_password" >{% trans "Password:"%}</label>
+                </th>
+                <td>
+                   <input type="password" class="input-medium"  name="password" id="id_password" />
+                </td>
+            </tr>
+           </tr>
+       
+        {% else %}
+            {{ form.as_table }}
+        {% endif %}
         
         <tr>
-            <td colspan="2" class="right">
-                <input id="submit_login" type="submit" value="{% trans 'Login' %}"/>
-            </td>
+        	<th>
+                <input id="submit_login" class="btn btn-info" type="submit" value="{% trans 'Login' %}"/>
+            </th>
         </tr>
+        
+        
     </table>
     <input type="hidden" name="next" value={{ next }} />
+    
 </form>

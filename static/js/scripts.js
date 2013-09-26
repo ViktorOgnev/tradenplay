@@ -41,14 +41,17 @@ function loginFormSuccess(json_response){
     if(json_response.success == "True"){
         
         // Get rid of the existing auth links
-        $("#auth_box").empty();
+        //$("#auth_box").empty();
+        $("#authbox_login_container>popover-content").empty();
         // renew the contents of tagbox
-        $("#auth_box").prepend(json_response.html).slideDown();
+        //$("#auth_box").prepend(json_response.html).slideDown();
+        $("#authbox_login_container>popover-content").prepend(json_response.html).slideDown();
         
     }
     else{
         //add the error text to the errors div
-        $("#auth_box").append(json_response.html);
+        //$("#auth_box").append(json_response.html);
+        $("#authbox_login_container>popover-content").append(json_response.html);
     }
 }
 
@@ -90,6 +93,7 @@ function loginLinkSuccess(json_response){
 ////////////////////////////////////////////////////////////////////////////////
 
 function ajaxSubmit(event, successFunction){
+    alert("ajaxSubmit have been called");
     console.log("ajaxSubmit have been called");
     event.preventDefault();
     var form = $(event.target);
@@ -216,18 +220,26 @@ function prepareDocument(){
     });
     // Prepare product review form
     $("form#review").submit(function(evnt){ajaxSubmit(evnt, productReviewSuccess);});
-    // $("#review_form").addClass('hidden');
-    // $("#add_review").click(slideToggleReviewForm);
-    // $("#add_review").addClass('visible');
+    
     $("#cancel_review").click(slideToggleReviewForm);
     // Tagging functionality
     $("form#tag").submit(function(event){ajaxSubmit(event, tagSuccess);});
     $("#id_tag").click(function(event){$(event.target).attr("value", "");});
     // Authorisation functionality
     $("#logout").click(function(event){processAuthLink(event, logoutLinkSuccess);});
-    $("#login").click(function(event){processAuthLink(event, loginLinkSuccess);});
+     
+     $('#login').popover({ 
+        content: function() {
+          return $('#popover_content_wrapper').html();
+        },
+        html : true, 
+        placement: 'bottom'
+    }); 
+
+
+
     //$("#login").click(function(event){offer_login(event);});
-    $("form#login_form").submit(function(event){ajaxSubmit(event, loginFormSuccess);});
+    $("popover-content>#login_form").submit(function(event){ajaxSubmit(event, loginFormSuccess);});
     
     statusBox();
 }

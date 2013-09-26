@@ -81,6 +81,7 @@ admin.site.register(HomepageSeoText, SingletonModelAdmin)
 
 class BrandAdmin(admin.ModelAdmin):
     
-    list_display = ('pk', 'name')
+    search_fields = ['name']
+    list_display = ('name', 'pk', 'offsite_url', 'logo')
     
 admin.site.register(Brand, BrandAdmin)

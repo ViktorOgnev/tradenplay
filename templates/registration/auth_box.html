@@ -12,13 +12,19 @@
                 {% trans "SignUp"%}
             </a>
             </li>
-            <li>
+            <li id="authbox_login_container">
             <a id="login" 
-               class='auth' 
-               href="{% url accounts_log_in %}?next={{request.path}}">
+               class='auth'
+               rel="popover"
+               data-title="{% trans 'Please login.'%}"
+               href="#{#{% url accounts_log_in %}?next={{request.path}}#}">
                 {% trans "Login"%}
             </a>
         {% endif %}
     </li>
         
 </ul>
+
+<div id="popover_content_wrapper" style="display: none">
+    {% include "registration/login_form.html" %}
+</div>

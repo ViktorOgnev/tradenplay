@@ -4,7 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
          <!-- <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/css.css" /> -->
         <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui-1.10.3.custom.css" />
-        <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css" />
+        <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+        <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" />
         <link rel="Stylesheet" type="text/css" href="{{ STATIC_URL }}css/custom.css" />
         <link rel="SHORTCUT ICON" href="{{ STATIC_URL }}images/favicon.ico" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -22,10 +23,11 @@
         {% block site_wrapper %}{% endblock %}
         {% block js %}
             
-            
-            <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+            <script type="text/javascript"src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tooltip.js"></script>
+            <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
-
+            
         {% endblock %}
 
         {% comment %}

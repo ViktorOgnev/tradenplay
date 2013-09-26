@@ -95,17 +95,17 @@ def log_in(request):
     
     context = {}
     if request.method == 'POST':
-        print 'request is post'
-        form = AuthenticationForm(request, request.POST)
-        if form: print form
+        
+        form = AuthenticationForm(data=request.POST)
+        
         if form.is_valid():
-            print 'form is valid'
+            
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
             user = authenticate(username=username, password=password)
             error = None
             if user is not None:
-                print 'User is not none'
+                
                 if user.is_active:
                     login(request, user)
                 else:

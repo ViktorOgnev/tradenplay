@@ -187,10 +187,10 @@
 
 {% block js %}
 {{ block.super }}
-<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+
 <script src="{{ STATIC_URL }}js/endless-pagination.js"></script>
 <script>
     $.endlessPaginate({paginateOnScroll: false});
-    $('#review_form').on('hidden')
+    
 </script>
 {% endblock %}                    
