@@ -3,14 +3,14 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from tinymce.widgets import TinyMCE
-from image_cropping import ImageCroppingMixin
+
 from solo.admin import SingletonModelAdmin
 
 from .models import Category, Product, ProductReview, HomepageSeoText, Brand
 from .forms import ProductAdminForm
 
 
-class ProductAdmin(ImageCroppingMixin, admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
 
     form = ProductAdminForm
 
@@ -44,7 +44,6 @@ class ProductAdmin(ImageCroppingMixin, admin.ModelAdmin):
     class Media:
         js = ['js/admin/display_thumbs.js',
               '/static/admin/js/tiny_django_browser.js']
-        
 
 
 admin.site.register(Product, ProductAdmin)
@@ -59,8 +58,8 @@ class CategoryAdmin(admin.ModelAdmin):
         'name', 'description', 'meta_keywords', 'meta_description']
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ['child_categories', 'parent_categories']
-    
-    
+
+
 admin.site.register(Category, CategoryAdmin)
 
 
@@ -76,12 +75,13 @@ admin.site.register(ProductReview, ProductReviewAdmin)
 
 # class HomepageSeoTextAdmin(SingletonModelAdmin, admin.ModelAdmin):
     # list_display = ('seo_text',)
-    
+
 admin.site.register(HomepageSeoText, SingletonModelAdmin)
 
+
 class BrandAdmin(admin.ModelAdmin):
-    
+
     search_fields = ['name']
     list_display = ('name', 'pk', 'offsite_url', 'logo')
-    
+
 admin.site.register(Brand, BrandAdmin)

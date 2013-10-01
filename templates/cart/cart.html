@@ -6,8 +6,8 @@
 {% load catalog_filters %}
 
 {% block content %}
-	<table summary="Your Shopping Cart" id="shopping_cart">
-		<caption>Your Shopping Cart</caption>
+<table summary="Your Shopping Cart" id="shopping_cart" class="table  table-hover span8">
+		<caption><h2>{% trans "Your Shopping Cart"%} </h2></caption>
 		<thead>
 			<tr>
 				<th scope="col">Product</th>
@@ -34,7 +34,7 @@
     					<input type="hidden" name="submit" value="Checkout" />
     					
               
-              		<input type="submit" value="Checkout" alt="Checkout" />
+              		<input type="submit" class="btn btn-success pull-right" value="Checkout" alt="Checkout" />
     				</form>
 				</th>
 			</tr>
@@ -57,13 +57,13 @@
 							<input type="hidden" name="item_id" value="{{ item.id }}" />
 					</td>
 					<td>
-						<input type="submit" name="submit" value="Update" />
+						<input type="submit" class="btn btn-primary" name="submit" value="Update" />
 						</form>
 					</td>
 					<td>
 						<form method="post" action="." class="cart">
 							<input type="hidden" name="item_id" value="{{ item.id }}" />
-							<input type="submit" name="submit" value="Remove"/>
+							<input type="submit" class="btn btn-warning" name="submit" value="Remove"/>
 						</form>
 					</td>
 					<td class="right">{{ item.total|currency }}</td>

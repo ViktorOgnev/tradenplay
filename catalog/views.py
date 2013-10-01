@@ -35,7 +35,7 @@ def index(request, template_name="catalog/index.html"):
         if i % 6 == 0:
             context["bestsellers"].append([])
         context["bestsellers"][-1].append(item)
-        
+
     context["seo_text"] = HomepageSeoText.objects.get(pk=1).seo_text
 
     return render_to_response(template_name, context,
@@ -43,17 +43,22 @@ def index(request, template_name="catalog/index.html"):
 
 
 def show_category(request, slug, template_name="catalog/category.html"):
+    context = {}
     category_cache_key = request.path
     category = cache.get(category_cache_key)
     if not category:
         category = get_object_or_404(Category.active, slug=slug)
         cache.set(category_cache_key, category, CACHE_TIMEOUT)
-    products = category.product_set.filter(is_active=True)
-    page_title = category.name
-    meta_keywords = category.meta_keywords
-    meta_description = category.meta_description
+    context['category'] = category
+    context['child_categories'] = category.child_categories.values()
+    context['products'] = category.product_set.filter(is_active=True)
+    context['page_title'] = category.name
+    context['meta_keywords'] = category.meta_keywords
+    context['meta_description'] = category.meta_description
+    
+    
 
-    return render_to_response(template_name, locals(),
+    return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
 
 # New product view with get/post detection
@@ -68,7 +73,7 @@ def show_product(request,
                  ):
     product_cache_key = request.path
     product = cache.get(product_cache_key)
-    
+
     if not product:
         product = get_object_or_404(Product.active.all(), slug=slug)
         cache.set(product_cache_key, product, CACHE_TIMEOUT)
@@ -77,7 +82,7 @@ def show_product(request,
     context = {}
     context['product'] = product
     stat_utils.log_product_view(request, product)
-    
+
     context['categories'] = product.categories.all()
     context['page_title'] = product.name
     context['meta_keywords'] = product.meta_keywords
@@ -192,13 +197,12 @@ def tag(request, tag, template_name="catalog/tag.html"):
     context['products'] = TaggedItem.objects.get_by_model(Product.active, tag)
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
-                              
+
+
 def autocomplete_products(request):
     term = request.GET.get('term', '')
     products = Product.active.values("name").filter(name__istartswith=term)
-    product_list = [product["name"] for product in products] 
+    product_list = [product["name"] for product in products]
     json_response = simplejson.dumps(product_list)
-    return HttpResponse(json_response, 
+    return HttpResponse(json_response,
                         content_type='application/javascript; charset=utf-8')
-    
-

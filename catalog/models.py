@@ -9,16 +9,18 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
 import tagging
-from image_cropping import ImageRatioField
-from solo.models import SingletonModel 
+#from image_cropping import ImageRatioField
+from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
 
 from caching.caching_utils import cache_update, cache_evict
-from utils.aux_utils import transliterate, get_image_path, produce_resized_image
-from tradenplay.settings import THUMBNAIL_SIZE, IMG_UPLD_DIR
+from utils.aux_utils import get_image_path
 
-from .signal_processors import add_m2m_connections
+from .signal_processors import (add_m2m_connections, remove_m2m_connections,
+                                create_thumbnail, create_category_banner)
+from .storage import OverwriteStorage
+
 
 class ActiveManager(models.Manager):
 
@@ -26,22 +28,23 @@ class ActiveManager(models.Manager):
 
     def get_query_set(self):
         return super(ActiveManager, self).get_query_set().filter(is_active=True)
-        
+
+
 class FeaturedManager(models.Manager):
 
     def get_query_set(self):
         return super(FeaturedManager, self).get_query_set().filter(
             is_active=True).filter(is_featured=True)
-    
+
     def all(self):
         return super(FeaturedManager, self).all().filter(
             is_active=True).filter(is_featured=True)
-    
+
     def values(self):
         return super(FeaturedManager, self).values().filter(
             is_active=True).filter(is_featured=True)
-            
-            
+
+
 class CatalogModelBase(models.Model):
 
     """
@@ -68,8 +71,8 @@ class CatalogModelBase(models.Model):
 
     objects = models.Manager()  # default manager still operative
     active = ActiveManager()  # new manager for active items
-    featured = FeaturedManager() # new manager for featured items
-    
+    featured = FeaturedManager()  # new manager for featured items
+
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50,
                             unique=True,
@@ -79,21 +82,20 @@ class CatalogModelBase(models.Model):
                             )
     description = models.TextField()
 
-    image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.ImageField(upload_to=get_image_path,
+                              storage=OverwriteStorage(), blank=True, null=True)
     image_url = models.CharField(max_length=255, editable=False, blank=True,
                                  null=True)
-    thumbnail = models.ImageField(upload_to=get_image_path, blank=True,
+    thumbnail = models.ImageField(upload_to=get_image_path,
+                                  storage=OverwriteStorage(), blank=True,
                                   null=True)
     thumbnail_url = models.CharField(
         max_length=255, editable=False, blank=True,
         null=True)
-    # https://github.com/jonasundderwolf/django-image-cropping
-    cropping = ImageRatioField('image', '430x360') 
-    
     
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
-    
+
     meta_keywords = models.CharField("Meta keywords", max_length=255,
                                      help_text=META_KWD_HELP_TEXT)
     meta_description = models.CharField("Meta description", max_length=255,
@@ -110,9 +112,9 @@ class CatalogModelBase(models.Model):
     def __unicode__(self):
         return self.name
 
-    #"TODO: url buildout process requires further optimisation"
+    
     def save(self, force_insert=False, force_update=False):
-        newname = transliterate(self.name[0:20])
+
         if self.image:
             self.image_url = self.image.url
         if self.thumbnail:
@@ -123,21 +125,7 @@ class CatalogModelBase(models.Model):
 
         super(CatalogModelBase, self).save(force_insert, force_update)
 
-        if not self.thumbnail and self.image:
-
-                produce_resized_image(self.image,
-                                      THUMBNAIL_SIZE,
-                                      newname,
-                                      'thumbnail')
-
-
-# class ActiveCategoryManager(models.Manager):
-
-    # def get_query_set(self):
-        # return super(
-            # ActiveCategoryManager, self).get_query_set().filter(is_active=True)
-
-
+        
 class Category(CatalogModelBase):
 
     """
@@ -155,6 +143,8 @@ class Category(CatalogModelBase):
                                                symmetrical=False,
                                                related_name='parent+',
                                                blank=True)
+    banner = models.ImageField(upload_to=get_image_path,
+                               storage=OverwriteStorage(), blank=True, null=True)
 
     class Meta:
 
@@ -169,39 +159,23 @@ class Category(CatalogModelBase):
                        kwargs={'slug': self.slug})
 
 
-    # def _create_connections(self, own_field, other_field):
-        # for item in self.field.values('pk'):
-            # object = self.objects.get(pk=item['pk'])
-            # object.other_field.add(self)
-            
-    def save(self, force_insert=False, force_update=False):
-        super(Category, self).save(force_insert, force_update)
-        
-        # for item in self.parent_categories.values('pk'):
-            # object = self.__class__.objects.get(pk=item['pk'])
-            # object.child_categories.add(self)
-        
-        # for item in self.child_categories.values('pk'):
-            # object = self.__class__.objects.get(pk=item['pk'])
-            # object.parent_categories.add(self)  
-            
 class Brand(models.Model):
-    
+
     name = models.CharField(max_length="255")
     logo = models.ImageField(upload_to=get_image_path)
     offsite_url = models.CharField(max_length="100")
     description = models.TextField(blank=True)
-    
+
     class Meta:
         verbose_name = _("Brand")
         verbose_name_plural = _("Brands")
-    
+
     def __unicode__(self):
-        return self.name        
+        return self.name
+
 
 class Product(CatalogModelBase):
 
-    
     brand = models.ForeignKey(Brand, null=True)
     sku = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=9, decimal_places=2,
@@ -209,7 +183,7 @@ class Product(CatalogModelBase):
     old_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True,
                                     default=Decimal('0.00'))
     is_bestseller = models.BooleanField(default=False)
-    
+
     quantity = models.IntegerField(default="1")
     categories = models.ManyToManyField(Category)
 
@@ -246,7 +220,6 @@ except tagging.AlreadyRegistered:
     pass
 
 
-    
 class ActiveProductReviewManager(models.Manager):
 
     """
@@ -276,20 +249,24 @@ class ProductReview(models.Model):
 
 
 class HomepageSeoText(SingletonModel):
-    
+
     seo_text = tinymce_models.HTMLField(blank=True, null=True,
                                         help_text="""You can use HTML markup - be
                                         careful!""")
-                                        
+
     def __unicode__(self):
         return u"The HomePage SEO-text"
-        
+
     class Meta:
         verbose_name = _(u"The HomePage SEO-text")
         verbose_name_plural = _(u"The HomePage SEO-text")
 
-post_save.connect(cache_update, sender=Product)
 post_delete.connect(cache_evict, sender=Product)
+post_delete.connect(cache_evict, sender=Category)
+post_delete.connect(remove_m2m_connections, sender=Category)
+post_save.connect(cache_update, sender=Product)
 post_save.connect(cache_update, sender=Category)
 post_save.connect(add_m2m_connections, sender=Category)
-post_delete.connect(cache_evict, sender=Category)
+post_save.connect(create_category_banner, sender=Category)
+post_save.connect(create_thumbnail, sender=Product)
+post_save.connect(create_thumbnail, sender=Category)

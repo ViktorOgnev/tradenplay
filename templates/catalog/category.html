@@ -1,13 +1,44 @@
 {% extends "common_templates/catalog.html" %}
 
 {% load i18n %}
+{% load catalog_tags %}
+
 {% block content %}
-    <h1>{{ c.name }}</h1>
-    {{ c.description }}
+    <div class="well">
+        <ul class="inline">
+        	<li>
+                <h2>{{ page_title }}</h2>
+                <p>
+                    {{ category.description }}
+                </p>
+            </li>
+        	<li>
+                <img src="{{ category.banner.url }}" alt="" class="pull-right" />
+            </li>
+        </ul>
+        
+        
+    </div>
     <br /><br />
     
-    {% for product in products %}
-        {% include 'tags/product_thumbnail.html' %}
-    {% endfor %}
+    <div class="well">
+        <ul class="thumbnails">
+        {% for child_category in child_categories %}
+            <li class="span3">
+                <div class="thumbnail">
+                    <img src="{{child_category.thumbnail_url}}" alt="{{ child_category.name }}" />
+                    <h4>
+                        {{ child_category.name }}
+                    </h4>
+                </div>
+            </li>
+        {% endfor%}
+        </ul>
+    </div>
+    <div>
+    	<hr />
+    </div>
+    
+    {% product_list products '' %}
     
 {% endblock %}

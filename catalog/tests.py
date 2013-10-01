@@ -22,7 +22,7 @@ class SimpleTest(TestCase):
 
 
 class NewUserTestCase(TestCase):
-    
+
     fixtures = ['catalog_initial_data.json']
 
     def setUp(self):
@@ -65,7 +65,6 @@ class NewUserTestCase(TestCase):
         # Test that category page contains category information.
         self.assertContains(response, category.name)
         #self.assertContains(response, category.get_absolute_url())
-        
 
     def test_view_product(self):
         product = Product.active.all()[0]
@@ -88,9 +87,7 @@ class NewUserTestCase(TestCase):
 
 
 class ActiveProductManagerTestCase(NewUserTestCase):
-    
-    
-        
+
     def test_inactive_product_returns_404(self):
         """
         Access an inactive product and check a response
@@ -107,9 +104,9 @@ class ActiveProductManagerTestCase(NewUserTestCase):
 
 
 class ProductTestCase(TestCase):
-    
+
     fixtures = ['catalog_initial_data.json']
-    
+
     def setUp(self):
         self.product = Product.active.all()[0]
         self.product.price = Decimal('134.57')
@@ -138,9 +135,9 @@ class ProductTestCase(TestCase):
 
 
 class CategoryTestCase(TestCase):
-    
+
     fixtures = ['catalog_initial_data.json']
-    
+
     def setUp(self):
         self.category = Category.active.all()[0]
         self.client = Client()
@@ -156,10 +153,10 @@ class CategoryTestCase(TestCase):
 
 
 class ProductReviewTestCase(TestCase):
-    
+
     fixtures = ['catalog_initial_data.json', 'accounts_initial_data.json',
                 'askbot_initial_data.json']
-    
+
     def test_orphaned_product_review(self):
         product_review = ProductReview()
         self.assertRaises(IntegrityError, product_review.save())
@@ -169,7 +166,6 @@ class ProductReviewTestCase(TestCase):
         product = Product.active.all()[0]
         product_review = ProductReview(user=user, product=product)
         product_review.save()
-        for field in pr._meta.fields:
+        for field in product._meta.fields:
             if field.has_default():
-                self.assertEqual(pr.__dict__[field.name], field.default)
-        
+                self.assertEqual(product.__dict__[field.name], field.default)

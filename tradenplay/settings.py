@@ -187,14 +187,7 @@ ASKBOT_EXTRA_SKINS_DIR = os.path.abspath(
 
 
 THUMBNAIL_SIZE = (300, 180)
-
-from easy_thumbnails.conf import Settings as thumbnail_settings
-
-THUMBNAIL_PROCESSORS = (
-    'image_cropping.thumbnail_processors.crop_corners',
-) + thumbnail_settings.THUMBNAIL_PROCESSORS
-IMAGE_CROPPING_THUMB_SIZE = (300, 180)
-IMAGE_CROPPING_SIZE_WARNING = True
+CATEGORY_BANNER_SIZE = (1000, 180)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
@@ -243,8 +236,8 @@ INSTALLED_APPS = (
     # Third party.
     'tagging',   # https://pypi.python.org/pypi/django-tagging-ext/0.3.5
     'endless_pagination',
-    'easy_thumbnails', # 'https://github.com/jonasundderwolf/django-image-cropping'
-    'image_cropping',
+    # 'easy_thumbnails', # 'https://github.com/jonasundderwolf/django-image-cropping'
+    # 'image_cropping',
     'solo',  # https://github.com/lazybird/django-solo
     
     # Custom build.
