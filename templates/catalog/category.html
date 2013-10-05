@@ -38,7 +38,86 @@
     <div>
     	<hr />
     </div>
+    <div id="filters" class="span2 well pull-left">
+        <h3>{% trans "Filters" %}</h3>
+        <ul>
+            {% for filter_group in filter_groups %}
+            <li>
+                <h5>{{ filter_group.name }}</h5>
+                <ul>
+                    {% for filter in filter_group.filters %}
+                    
+                    <li>
+                        <label for="" class="checkbox">
+                            <input class="filter-checkbox" type="checkbox" data-filter="{{ filter }}"/>
+                            {{ filter }}
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>   
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="products" class="span9">{% product_list products '' %}</div>
     
-    {% product_list products '' %}
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
     
+    
+    
+    function ajaxFilter(event) {
+            
+        console.log("ajaxFilter have been called");
+        event.preventDefault();
+        console.log("{{ product_ids }}");
+        var checkbox = $(event.target);
+        var request_data = {
+            'filter': checkbox.attr("data-filter"),
+            'product_ids':"{{ product_ids }}"
+        }
+        console.log(request_data);
+        checkbox.attr("checked", "checked");
+        checkbox.attr("disabled", "disabled");
+        $.ajax({
+            url : "{% url catalog_filter_products %}",
+            type : 'GET',
+            data : request_data,
+            dataType : 'json',
+            success : filterSuccess,
+            error : function (xhr, textStatus, errorThrown) {
+                //log ajax errors
+                console.log("There was an error processing ajax request: \n" +
+                    "\t -the text status is: ' " + textStatus + "'\n" +
+                    "\t -the error thrown is:' " + String(errorThrown) + "'" +
+                    "\t -the data sent  is: ' " + this.data + "'" +
+                    "\t -the method is: ' " + this.type + "'");
+            }
+        });  
+    }
+    
+    function filterSuccess(json_response) {
+        console.log("filterSuccess have been called");
+        console.log(json_response.html);
+        if (json_response.success == "True") {
+
+            // Get rid of the existing auth links
+            $("#products").empty();
+            // renew the contents of tagbox
+            $("#products").prepend(json_response.html);
+
+        } else {
+            //add the error text to the errors div
+            $("#products").append(json_response.html);
+        }
+    }
+    
+    
+    $(document).ready(
+        $("input:checkbox").on('change', function (event) {
+            ajaxFilter(event)
+        })
+    );
+</script>
 {% endblock %}

@@ -73,37 +73,43 @@ class CatalogModelBase(models.Model):
     active = ActiveManager()  # new manager for active items
     featured = FeaturedManager()  # new manager for featured items
 
-    name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50,
-                            unique=True,
-                            help_text=_(
-                                "Unique value, generated \
-                                from name automatically.")
-                            )
-    description = models.TextField()
+    name = models.CharField(max_length=50, verbose_name=_("Name"))
+    slug = models.SlugField(
+        max_length=50, unique=True, help_text=_( "Unique value, generated \
+        from name automatically."), verbose_name=_("Slug"))
 
-    image = models.ImageField(upload_to=get_image_path,
-                              storage=OverwriteStorage(), blank=True, null=True)
+    description = models.TextField(verbose_name=_("Description"))
+
+    image = models.ImageField(
+        upload_to=get_image_path, verbose_name=_("Image"),
+        storage=OverwriteStorage(), blank=True, null=True)
+
     image_url = models.CharField(max_length=255, editable=False, blank=True,
                                  null=True)
-    thumbnail = models.ImageField(upload_to=get_image_path,
-                                  storage=OverwriteStorage(), blank=True,
-                                  null=True)
+
+    thumbnail = models.ImageField(
+        upload_to=get_image_path, storage=OverwriteStorage(),
+        blank=True, null=True, verbose_name=_("Thumbnail"))
+
     thumbnail_url = models.CharField(
-        max_length=255, editable=False, blank=True,
-        null=True)
-    
-    is_active = models.BooleanField(default=True)
-    is_featured = models.BooleanField(default=False)
+        max_length=255, editable=False, blank=True, null=True)
 
-    meta_keywords = models.CharField("Meta keywords", max_length=255,
-                                     help_text=META_KWD_HELP_TEXT)
-    meta_description = models.CharField("Meta description", max_length=255,
+    is_active = models.BooleanField(default=True, verbose_name=_("Is active"))
+    is_featured = models.BooleanField(
+        default=False, verbose_name=_("Is featured"))
+
+    meta_keywords = models.CharField(max_length=255,
+                                     help_text=META_KWD_HELP_TEXT,
+                                     verbose_name=_("Meta keywords"))
+    meta_description = models.CharField(max_length=255,
                                         help_text=_("Short(!) and relevant(!) \
-                                                    description."))
+                                                    description."),
+                                        verbose_name=_("Meta description"))
 
-    created_at = models.DateTimeField(default=datetime.datetime.now)
-    updated_at = models.DateTimeField(default=datetime.datetime.now)
+    created_at = models.DateTimeField(
+        default=datetime.datetime.now, verbose_name=_("Created at"))
+    updated_at = models.DateTimeField(
+        default=datetime.datetime.now, verbose_name=_("Updated at"))
 
     @property
     def cache_key(self):
@@ -112,7 +118,6 @@ class CatalogModelBase(models.Model):
     def __unicode__(self):
         return self.name
 
-    
     def save(self, force_insert=False, force_update=False):
 
         if self.image:
@@ -125,7 +130,24 @@ class CatalogModelBase(models.Model):
 
         super(CatalogModelBase, self).save(force_insert, force_update)
 
-        
+
+class Filter(models.Model):
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+
+class SpecificationGroup(models.Model):
+
+    name = models.CharField(max_length=255)
+    filters = models.ManyToManyField(Filter)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Category(CatalogModelBase):
 
     """
@@ -145,6 +167,7 @@ class Category(CatalogModelBase):
                                                blank=True)
     banner = models.ImageField(upload_to=get_image_path,
                                storage=OverwriteStorage(), blank=True, null=True)
+    filter_groups = models.ManyToManyField(SpecificationGroup)
 
     class Meta:
 
@@ -186,6 +209,7 @@ class Product(CatalogModelBase):
 
     quantity = models.IntegerField(default="1")
     categories = models.ManyToManyField(Category)
+    specifications = models.ManyToManyField(Filter, verbose_name=_("Key specifications"))
 
     class Meta:
         db_table = 'products'

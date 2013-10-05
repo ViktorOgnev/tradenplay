@@ -6,7 +6,8 @@ from tinymce.widgets import TinyMCE
 
 from solo.admin import SingletonModelAdmin
 
-from .models import Category, Product, ProductReview, HomepageSeoText, Brand
+from .models import (Category, Product, ProductReview, HomepageSeoText, Brand,
+                     SpecificationGroup, Filter)
 from .forms import ProductAdminForm
 
 
@@ -26,7 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
         (_('Basic data'), {
             'fields': ('name', 'brand', 'price', 'quantity', 'description',
                        'categories', 'image', 'thumbnail', 'meta_keywords',
-                       'meta_description'),
+                       'meta_description', 'specifications'),
             'classes': ('wide', 'extrapretty')
         }),
         (_('Advanced data'), {
@@ -35,7 +36,7 @@ class ProductAdmin(admin.ModelAdmin):
                        'slug', 'created_at', 'updated_at',)
         }),
     )
-    filter_horizontal = ['categories']
+    filter_horizontal = ['categories', 'specifications']
 
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE},
@@ -85,3 +86,21 @@ class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk', 'offsite_url', 'logo')
 
 admin.site.register(Brand, BrandAdmin)
+
+
+class SpecificationGroupAdmin(admin.ModelAdmin):
+
+    list_filter = ('filters__name',)
+    search_fields = ['name']
+    list_display = ('name', 'pk',)
+    filter_horizontal = ['filters']
+
+admin.site.register(SpecificationGroup, SpecificationGroupAdmin)
+
+
+class FilterAdmin(admin.ModelAdmin):
+
+    search_fields = ['name']
+    list_display = ('name', 'pk',)
+
+admin.site.register(Filter, FilterAdmin)

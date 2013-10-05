@@ -51,13 +51,18 @@ def show_category(request, slug, template_name="catalog/category.html"):
         cache.set(category_cache_key, category, CACHE_TIMEOUT)
     context['category'] = category
     context['child_categories'] = category.child_categories.values()
-    context['products'] = category.product_set.filter(is_active=True)
+    context['products'] = category.product_set.values().filter(is_active=True)
     context['page_title'] = category.name
     context['meta_keywords'] = category.meta_keywords
     context['meta_description'] = category.meta_description
-    
-    
-
+    context['filter_groups'] = []
+    for filter_group in category.filter_groups.all():
+        group = {'name': filter_group.name, 'filters': []} 
+        for filter in filter_group.filters.all():
+            group['filters'].append(filter.name)
+        context['filter_groups'].append(group)
+    list_of_id_dicts = context['products'].values("id")
+    context['product_ids'] = [ id_dict.values()[0] for id_dict in list_of_id_dicts]
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
 
@@ -123,6 +128,25 @@ def show_product(request,
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
 
+def ajax_filter_products(request):
+    
+    # already_filtered = request.GET.get('already_filtered')
+    filter = request.GET.get('filter', '')
+    
+    ids_unicode = request.GET.get('product_ids', '')
+    ids_list = [ int(i) for i in ids_unicode[1:-1].replace(' ', '').split(',')]
+    already_filtered = Product.active.filter(id__in=ids_list)
+    filtered_product_list = []
+    for product in already_filtered:
+        if filter in product.specifications.all():
+            filtered_product_list.append(product)
+    # TO FIX : filtered_product_list is always empty here
+    template = 'tags/product_list.html'
+    html = render_to_string(template, {'products': filtered_product_list})
+    json_response = simplejson.dumps({'success': 'True', 'html': html})
+    
+    return HttpResponse(json_response, content_type="application/javascript")
+    
 
 @login_required
 def add_review(request):

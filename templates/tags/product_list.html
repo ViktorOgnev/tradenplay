@@ -4,7 +4,7 @@
 {% if forloop.first %}
 <h4> {{ header_text }}</h4>
 {% endif %}
-<div class="thumbnail span2">
+<div class="product thumbnail span2" data-product-id="{{ product.id }}">
     {% include 'tags/product_thumbnail.html' %}
     {{ product.description|truncatechars:35 }}
     <ul class="inline pull-right">
