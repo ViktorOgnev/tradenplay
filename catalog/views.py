@@ -136,14 +136,19 @@ def ajax_filter_products(request):
     ids_unicode = request.GET.get('product_ids', '')
     ids_list = [ int(i) for i in ids_unicode[1:-1].replace(' ', '').split(',')]
     already_filtered = Product.active.filter(id__in=ids_list)
+    print 'already_filtered', already_filtered
     filtered_product_list = []
-    for product in already_filtered:
-        if filter in product.specifications.all():
-            filtered_product_list.append(product)
-    # TO FIX : filtered_product_list is always empty here
-    template = 'tags/product_list.html'
-    html = render_to_string(template, {'products': filtered_product_list})
-    json_response = simplejson.dumps({'success': 'True', 'html': html})
+    try:
+        for product in already_filtered:
+            if filter in [name_dict.values()[0] for name_dict in product.specifications.values("name")]:
+                filtered_product_list.append(product)
+        # TO FIX : filtered_product_list is always empty here
+        print 'filtered_product_list', filtered_product_list
+        template = 'tags/product_list.html'
+        html = render_to_string(template, {'products': filtered_product_list})
+        json_response = simplejson.dumps({'success': 'True', 'html': html})
+    except Exception, e:
+        print e
     
     return HttpResponse(json_response, content_type="application/javascript")
     
