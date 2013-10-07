@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Success functions for different successful ajax events //////////////////////
+////////////// Success functions for different successful ajax events //////////
 ////////////////////////////////////////////////////////////////////////////////
 
 function productReviewSuccess(json_response) {
@@ -83,7 +83,7 @@ function loginLinkSuccess(json_response) {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////
-// Ajax event handlers                                    //////////////////////
+////////////////////     Ajax event handlers    ////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 function ajaxSubmit(event, successFunction) {
@@ -107,12 +107,6 @@ function ajaxSubmit(event, successFunction) {
 		}
 	});
 }
-
-
-
-
-
-
 
 
 // ajax-process autorisation liks such as login, logout and sign-in
@@ -195,7 +189,7 @@ function prepareDocument() {
 	});
 	
     
-});
+
 
 	//$("#login").click(function(event){offer_login(event);});
 	$("popover-content>#login_form").submit(function (event) {

@@ -57,12 +57,13 @@ def show_category(request, slug, template_name="catalog/category.html"):
     context['meta_description'] = category.meta_description
     context['filter_groups'] = []
     for filter_group in category.filter_groups.all():
-        group = {'name': filter_group.name, 'filters': []} 
+        group = {'name': filter_group.name, 'filters': []}
         for filter in filter_group.filters.all():
             group['filters'].append(filter.name)
         context['filter_groups'].append(group)
     list_of_id_dicts = context['products'].values("id")
-    context['product_ids'] = [ id_dict.values()[0] for id_dict in list_of_id_dicts]
+    context['product_ids'] = [id_dict.values()[0]
+                              for id_dict in list_of_id_dicts]
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
 
@@ -128,30 +129,35 @@ def show_product(request,
     return render_to_response(template_name, context,
                               context_instance=RequestContext(request))
 
+
 def ajax_filter_products(request):
+
     
-    # already_filtered = request.GET.get('already_filtered')
-    filter = request.GET.get('filter', '')
-    
+    filters_unicode = request.GET.get('filters', '')
     ids_unicode = request.GET.get('product_ids', '')
-    ids_list = [ int(i) for i in ids_unicode[1:-1].replace(' ', '').split(',')]
+    
+    ids_list = [int(i) for i in ids_unicode[1:-1].replace(' ', '').split(',')]
     already_filtered = Product.active.filter(id__in=ids_list)
-    print 'already_filtered', already_filtered
-    filtered_product_list = []
-    try:
+    if filters_unicode == u'':
+        filtered_product_list = already_filtered 
+    else:
+        filters_list = [filter for filter in filters_unicode.split(',')]
+        filtered_product_list = []
         for product in already_filtered:
-            if filter in [name_dict.values()[0] for name_dict in product.specifications.values("name")]:
+            for filter in filters_list:
+                if filter not in [name_dict.values()[0]
+                              for name_dict in product.specifications.values("name")]:
+                    break
+            else:
                 filtered_product_list.append(product)
-        # TO FIX : filtered_product_list is always empty here
-        print 'filtered_product_list', filtered_product_list
-        template = 'tags/product_list.html'
-        html = render_to_string(template, {'products': filtered_product_list})
-        json_response = simplejson.dumps({'success': 'True', 'html': html})
-    except Exception, e:
-        print e
-    
+
+        
+    template = 'tags/product_list.html'    
+    html = render_to_string(template, {'products': filtered_product_list})
+    json_response = simplejson.dumps({'success': 'True', 'html': html})
     return HttpResponse(json_response, content_type="application/javascript")
-    
+
+
 
 @login_required
 def add_review(request):

@@ -209,7 +209,8 @@ class Product(CatalogModelBase):
 
     quantity = models.IntegerField(default="1")
     categories = models.ManyToManyField(Category)
-    specifications = models.ManyToManyField(Filter, verbose_name=_("Key specifications"))
+    specifications = models.ManyToManyField(
+        Filter, verbose_name=_("Key specifications"))
 
     class Meta:
         db_table = 'products'

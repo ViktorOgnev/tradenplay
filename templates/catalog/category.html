@@ -62,62 +62,74 @@
     <div id="products" class="span9">{% product_list products '' %}</div>
     
 {% endblock %}
+
 {% block js %}
-<script type="text/javascript">
-    
-    
-    
-    function ajaxFilter(event) {
-            
-        console.log("ajaxFilter have been called");
-        event.preventDefault();
-        console.log("{{ product_ids }}");
-        var checkbox = $(event.target);
-        var request_data = {
-            'filter': checkbox.attr("data-filter"),
-            'product_ids':"{{ product_ids }}"
-        }
-        console.log(request_data);
-        checkbox.attr("checked", "checked");
-        checkbox.attr("disabled", "disabled");
-        $.ajax({
-            url : "{% url catalog_filter_products %}",
-            type : 'GET',
-            data : request_data,
-            dataType : 'json',
-            success : filterSuccess,
-            error : function (xhr, textStatus, errorThrown) {
-                //log ajax errors
-                console.log("There was an error processing ajax request: \n" +
-                    "\t -the text status is: ' " + textStatus + "'\n" +
-                    "\t -the error thrown is:' " + String(errorThrown) + "'" +
-                    "\t -the data sent  is: ' " + this.data + "'" +
-                    "\t -the method is: ' " + this.type + "'");
+    {{block.super}}
+    <script type="text/javascript">
+        function ajaxFilter(event) {
+            event.preventDefault();
+            var checkbox = $(event.target);
+            var checked_attr = checkbox.attr("checked");
+            if (typeof checked_attr !== 'undefined' && checked_attr !== false) {
+                checkbox.removeAttr("checked");
             }
-        });  
-    }
-    
-    function filterSuccess(json_response) {
-        console.log("filterSuccess have been called");
-        console.log(json_response.html);
-        if (json_response.success == "True") {
-
-            // Get rid of the existing auth links
-            $("#products").empty();
-            // renew the contents of tagbox
-            $("#products").prepend(json_response.html);
-
-        } else {
-            //add the error text to the errors div
-            $("#products").append(json_response.html);
+            else {
+                checkbox.attr("checked", "checked");
+            }
+            var filters = [];
+            $(".filter-checkbox").each(function(){
+                var elem = $(this);
+                var checked = elem.attr("checked");
+                if(typeof checked !== 'undefined' && checked !== false){
+                    filters.push(elem.attr("data-filter"));
+                }
+            })
+            var request_data = {
+                'filters': filters.toString() ,
+                //'product_ids': product_ids.toString()
+                'product_ids': "{{ product_ids }}"
+            }
+            console.log(request_data);
+            checkbox.attr("disabled", "disabled");
+            $.ajax({
+                url : "{% url catalog_filter_products %}",
+                type : 'GET',
+                data : request_data,
+                dataType : 'json',
+                success : filterSuccess,
+                error : function (xhr, textStatus, errorThrown) {
+                    //log ajax errors
+                    console.log("There was an error processing ajax request: \n" +
+                        "\t -the text status is: ' " + textStatus + "'\n" +
+                        "\t -the error thrown is:' " + String(errorThrown) + "'" +
+                        "\t -the data sent  is: ' " + this.data + "'" +
+                        "\t -the method is: ' " + this.type + "'");
+                }
+            });
+            checkbox.removeAttr("disabled");
+            
         }
-    }
-    
-    
-    $(document).ready(
-        $("input:checkbox").on('change', function (event) {
-            ajaxFilter(event)
-        })
-    );
-</script>
+        
+        function filterSuccess(json_response) {
+            
+            if (json_response.success == "True") {
+
+                // Get rid of the existing auth links
+                $("#products").empty();
+                // renew the contents of tagbox
+                $("#products").prepend(json_response.html);
+
+            } else {
+                //add the error text to the errors div
+                $("#products").append(json_response.html);
+            }
+        }
+        
+        
+        $(document).ready(
+            $("input:checkbox").on('change', function (event) {
+                ajaxFilter(event)
+            })
+        );
+    </script>
 {% endblock %}
