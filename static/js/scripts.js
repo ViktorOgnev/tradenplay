@@ -39,11 +39,9 @@ function loginFormSuccess(json_response) {
 	if (json_response.success == "True") {
 
 		// Get rid of the existing auth links
-		//$("#auth_box").empty();
-		$("#authbox_login_container>popover-content").empty();
+		$("#auth_box").empty();
 		// renew the contents of tagbox
-		//$("#auth_box").prepend(json_response.html).slideDown();
-		$("#authbox_login_container>popover-content").prepend(json_response.html).slideDown();
+		$("#auth_box").prepend(json_response.html);
 
 	} else {
 		//add the error text to the errors div
@@ -75,7 +73,7 @@ function loginLinkSuccess(json_response) {
 		// Get rid of the existing auth links
 		$("#auth_box").empty();
 		// renew the contents of tagbox
-		$("#auth_box").prepend(json_response.html).slideDown();
+		$("#auth_box").prepend(json_response.html);
 
 	} else {
 		//add the error text to the errors div
@@ -180,22 +178,7 @@ function prepareDocument() {
 		processAuthLink(event, logoutLinkSuccess);
 	});
 
-	$('#login').popover({
-		content : function () {
-			return $('#popover_content_wrapper').html();
-		},
-		html : true,
-		placement : 'bottom'
-	});
 	
-    
-
-
-	//$("#login").click(function(event){offer_login(event);});
-	$("popover-content>#login_form").submit(function (event) {
-		ajaxSubmit(event, loginFormSuccess);
-	});
-
 	statusBox();
 }
 

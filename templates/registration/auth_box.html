@@ -17,7 +17,7 @@
                class='auth'
                rel="popover"
                data-title="{% trans 'Please login.'%}"
-               href="#{#{% url accounts_log_in %}?next={{request.path}}#}">
+               href="#">
                 {% trans "Login"%}
             </a>
         {% endif %}
@@ -26,5 +26,24 @@
 </ul>
 
 <div id="popover_content_wrapper" style="display: none">
-    {% include "registration/login_form.html" %}
+    {% include "registration/login_form.html"%}
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#login').popover({
+            content : function () {
+                return $('#popover_content_wrapper').html();
+		},
+            html : true,
+            placement : 'bottom'
+        });
+        
+        $("form#login_form").submit(function (event) {
+            console.log("submitted");
+            ajaxSubmit(event, loginFormSuccess);
+            });
+    })
+    
+    
+</script>

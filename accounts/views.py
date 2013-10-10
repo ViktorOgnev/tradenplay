@@ -2,6 +2,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import urlresolvers, render_to_response
 from django.template import RequestContext
@@ -94,18 +95,15 @@ def log_out(request):
 def log_in(request):
     
     context = {}
+    next = reverse('catalog_home')
     if request.method == 'POST':
-        
         form = AuthenticationForm(data=request.POST)
-        
         if form.is_valid():
-            
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
             user = authenticate(username=username, password=password)
             error = None
             if user is not None:
-                
                 if user.is_active:
                     login(request, user)
                 else:
@@ -113,26 +111,24 @@ def log_in(request):
             else:
                 error = _("Sorry, we were unable to acceept this login/password")
             if request.is_ajax():
-                print 'request is ajax'
                 if error is None:
                     html = render_to_string("registration/auth_box.html")
-                    context = {'success':'True', 'html': html}
+                    response = {'success':'True', 'html': html}
                 else:
-                    context = {'success': 'False', 'error': error}
-                    
-                json_response = simplejson.dumps(context)
+                    response = {'success': 'False', 'error': error}
+                json_response = simplejson.dumps(response)
                 return HttpResponse(json_response,
                             content_type='application/javascript; charset=utf-8')
             #If it's a nonajax request - just redirect to a previous page
             else:
-                HttpResponseRedirect(request.REQUEST.get('next', '/'))
+                HttpResponseRedirect(next)
     # GET
     else:
         form = AuthenticationForm()                                                                                                                                        
     
-    context.update({'next': request.REQUEST.get('next', '/'),                                                                                                
-                    'form': form,                                                                                                                         
-                    'request':request,                                                                                                                  
+    context.update({'next': next,                                                                                                
+                    'login_form': form,                                                                                                                         
+                    'request': request,                                                                                                                  
                    })
     
     if request.is_ajax():
@@ -147,8 +143,7 @@ def log_in(request):
             return HttpResponse(json_response,
                                 content_type='application/javascript; charset=utf-8')
     else:
-        return render_to_response('registration/login.html', context,
-                                  context_instance=RequestContext(request))
+        return HttpResponseRedirect(next)
             
 def ajax_login(request):
     try:

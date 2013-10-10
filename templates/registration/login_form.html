@@ -5,10 +5,10 @@
 </ul>
 <br />
 {% endif %}
-<form id="login_form" class="form-horisontal" method="post" action="{% url accounts_log_in %}">
+<form id="login_form" class="form-horisontal" method="post" action="{% url accounts_log_in %}?next={% url catalog_home %}">
     {% csrf_token %}
-    <table summary="{% trans 'Login' %}" id="login">
-        {% if not form %}
+    <table summary="{% trans 'Login' %}">
+        {% if not login_form %}
             <tr>
                <th>
                    <label for="id_username" >Username:</label>
@@ -16,28 +16,31 @@
                <td>
                    <input id="id_username"  class="input-medium" type="text" name="username" maxlength="30" />
                </td>
-           <tr>
+            <tr>
                <th>
                    <label for="id_password" >{% trans "Password:"%}</label>
                 </th>
                 <td>
                    <input type="password" class="input-medium"  name="password" id="id_password" />
                 </td>
+               
             </tr>
            </tr>
        
         {% else %}
-            {{ form.as_table }}
+            {{ login_form.as_table }}
         {% endif %}
         
         <tr>
         	<th>
+                <input type="hidden" name="next" value="{{next}}" />
                 <input id="submit_login" class="btn btn-info" type="submit" value="{% trans 'Login' %}"/>
             </th>
         </tr>
         
         
+        
     </table>
-    <input type="hidden" name="next" value={{ next }} />
+    
     
 </form>
