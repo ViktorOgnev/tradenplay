@@ -21,10 +21,10 @@
 		<tfoot>
 			<tr>
 				<th class="right" colspan="5">
-					Cart Subtotal:
+					{% trans "Cart Subtotal"%}:
 				</th>
-				<th class="right">
-					{{ cart_subtotal|currency }}
+				<th class="right text-success">
+					<p class="font_19px">{{ cart_subtotal|currency }}</p>
 				</th>
 			</tr>
 			{% if cart_items %}
@@ -34,7 +34,9 @@
     					<input type="hidden" name="submit" value="Checkout" />
     					
               
-              		<input type="submit" class="btn btn-success pull-right" value="Checkout" alt="Checkout" />
+              		<button type="submit" class="btn btn-success pull-right" alt="Checkout">
+                        <i class="icon-ok icon-white"> </i>{% trans "Checkout" %}
+                    </button>
     				</form>
 				</th>
 			</tr>
@@ -49,24 +51,30 @@
 							{{ item.name }}
 						</a>
 					</td>
-					<td>{{ item.price|currency }}</td>
+					<td class="text-warning muted">{{ item.price|currency }}</td>
 					<td class="right">
-						<form method="post" action="." class="cart">{% csrf_token %}
-							<label for="quantity">Quantity:</label>
-							<input type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" class="quantity" maxlength="5" />
+						<form id="update_cart" method="post" action="." class="cart">
+                            {% csrf_token %}
+							<input class="font_14px input-mini" type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" class="quantity" maxlength="5" />
 							<input type="hidden" name="item_id" value="{{ item.id }}" />
 					</td>
 					<td>
-						<input type="submit" class="btn btn-primary" name="submit" value="Update" />
+						<input type="hidden" name="submit" value="Update" />
+                        <button form="update_cart" formaction="." formmethod="post" formtarget="_self" type="submit" class="btn btn-info"  value="">
+                                <i class="icon-refresh"></i>
+                            </button>
 						</form>
 					</td>
 					<td>
-						<form method="post" action="." class="cart">
+						<form id="remove_from_cart"  class="cart">
 							<input type="hidden" name="item_id" value="{{ item.id }}" />
-							<input type="submit" class="btn btn-warning" name="submit" value="Remove"/>
+							<input type="hidden" name="submit" value="Remove"/>
+                            <button form="remove_from_cart" formaction="." formmethod="post" formtarget="_self" type="submit" class="btn btn-warning"  value="">
+                                <i class="icon-remove"></i>
+                            </button>
 						</form>
 					</td>
-					<td class="right">{{ item.total|currency }}</td>
+					<td class="right text-success">{{ item.total|currency }}</td>
 				</tr>
 			{% endfor %}
 		{% else %}

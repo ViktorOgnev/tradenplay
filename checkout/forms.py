@@ -2,7 +2,9 @@ import datetime
 import re
 
 from django import forms
-from checkout.models import Order
+from django.utils.translation import ugettext as _
+
+from .models import Order
 
 
 def cc_expire_years():
@@ -100,12 +102,12 @@ class CheckoutForm(forms.ModelForm):
         stripped_cc_number = strip_non_numbers(cc_number)
         if not cardLuhnChecksumIsValid(stripped_cc_number):
             raise forms.ValidationError(
-                'The credit card you entered is invalid.')
+               _('The credit card you entered is invalid.'))
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
         stripped_phone = strip_non_numbers(phone)
         if len(stripped_phone) < 10:
             raise forms.ValidationError(
-                'Enter a valid phone number with area code.(e.g.+38 555 555-5555)')
+                _('Enter a valid phone number with area code.(e.g.+38 555 555-5555)'))
         return self.cleaned_data['phone']

@@ -13,10 +13,20 @@
         
         <div class="span6  vertical-border-left">
         
+            <ul class="inline">
+            	<li><h2><span property="v:name">{{ product.name }}</span></h2></li>
+            	
+            </ul>
             
-            <h1><span property="v:name">{{ product.name }}</span></h1>
-            <ul class="inline pull-right">
-                <li><p>{% trans "Brand:"%}</p> </li>
+            
+            <ul class="inline ">
+                <li>
+                    <a rel="nofollow" href="{{ product.brand.offsite_url }}" class="">
+                        <img src="{{ product.brand.logo.url }}" alt="" />
+                    </a>
+                </li>
+                <li class="">{% trans "SKU:"%} {{ product.sku }}</li>
+                <li ><p>{% trans "Brand:"%}</p> </li>
                 <li>
                     <p>
                         <em>
@@ -29,15 +39,7 @@
                     </p>
                 </li>
             </ul>
-            <a rel="nofollow" href="{{ product.brand.offsite_url }}" class="">
-                <img src="{{ product.brand.logo.url }}" alt="" />
-            </a>
-            
-                    
-                    
-            <br />
-            {% trans "SKU:"%} {{ product.sku }}
-            <br />
+                        
             In categor{{ categories.count|pluralize:"y,ies" }}: 
             {% for c in categories %}
                 <a href="{{ c.get_absolute_url }}">
@@ -48,32 +50,41 @@
                 {% if not forloop.last %}, {% endif %}
             {% endfor %}
             <br /><br />
-            <div class="price">
-                {% if product.sale_price %}
-                    <p class="text-error muted">{% trans "Was:" %} <del>{{ product.old_price|currency }}</del></p>
-                <br />
-                <p class="text-warning">{% trans "Now:" %} <span property="v:price">{{ product.price|currency }}</span></p>
-                {% else %}
-                    <p class="text-success">{% trans "Price:" %} <span property="v:price">{{ product.price|currency }}</span></p>
-                {% endif %}
-            </div>
+            <ul class="inline well span4">
+            	<li>
+                    <div class="price">
+                        {% if product.sale_price %}
+                            <p class="text-error muted">{% trans "Was:" %} <del>{{ product.old_price|currency }}</del></p>
+                        <br />
+                        <p class="text-warning">{% trans "Now:" %} <span property="v:price">{{ product.price|currency }}</span></p>
+                        {% else %}
+                            <p class="text-success">{% trans "Price:" %} <span property="v:price">{{ product.price|currency }}</span></p>
+                        {% endif %}
+                    </div>
+                </li>
+            	<li>
+                    <div class="to-cart">
+                        <form method="post" action="." class="form-inline ">
+                            <div>{{form.errors}}</div>
+                            <div class="input-append ">
+                                
+                                <input name="quantity" id="id_quantity"  class="quantity form-control input-mini" type="text" value="1" size="2" >
+                                <input class="add_to_cart_input" type="hidden" name="slug" value="{{ product.slug }}" id="id_slug">
+                                <button  class="btn btn-info btn-large add_to_cart_input "type="submit">
+                                    &nbsp;
+                                    <i class="icon-plus"></i>
+                                    <img id="add_to_cart_icon" src="{{ STATIC_URL }}img/cart_big.png" alt="" />
+                                    &nbsp;
+                                </button>
+                            </div>    
+                        </form>
+                    </div>
+                </li>
+            </ul>
             
-            <div class="to-cart">
-                <form method="post" action="." class="span1 form-inline">
-                    <div>{{form.errors}}</div>
-                    <div class="input-append ">
-                        <label for="id_quantity">
-                            {% trans "Quantity:"%}
-                        </label>
-                        <input name="quantity" id="id_quantity"  class="quantity form-control input-mini" type="text" value="1" size="2" >
-                        <input type="hidden" name="slug" value="testproduct3" id="id_slug">
-                        <button class="btn btn-info btn-large"type="submit">
-                            <i class="icon-shopping-cart"></i>
-                        </button>
-                    </div>    
-                </form>
-            </div>
-            <br /><br /><br /><br /><br /><br />
+            
+            
+            
             
         </div>
     </div>
@@ -168,10 +179,10 @@
     <br /><br />
     <div id="disqus_thread"></div>
     <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        
         var disqus_shortname = 'tradenplay'; // required: replace example with your forum shortname
         
-        /* * * DON'T EDIT BELOW THIS LINE * * */
+        
         (function() {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';

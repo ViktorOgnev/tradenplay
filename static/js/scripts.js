@@ -132,6 +132,20 @@ function processAuthLink(event, successFunction) {
 	});
 };
 
+function resizeThumbnails(){
+    var max = 0, jThumbnails = $(".product_thumbnail_wrapper");
+    jThumbnails.each(function(index, elt){
+        max = Math.max(max, $(elt).height());
+    });
+    jThumbnails.each(function(){
+        var $this = $(this);
+        
+        $this.height(max);
+        
+        
+    });
+}
+
 function slideToggleReviewForm() {
 	$("#review_form").slideToggle();
 	$("#add_review").slideToggle();
@@ -178,7 +192,7 @@ function prepareDocument() {
 		processAuthLink(event, logoutLinkSuccess);
 	});
 
-	
+	/* resizeThumbnails(); */
 	statusBox();
 }
 

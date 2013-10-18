@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="inline">
 	<ul class="inline">
 		<li><a href="{% url catalog_home %}">Home</a></li>
@@ -5,17 +6,19 @@
 		<li><a href="/privacy-policy/">Privacy</a></li>
 		<li><a href="/contact/">Contact</a></li>
 		
-		
-	    <li>
-			<a href="{% url my_account %}">My Account</a>
-		</li>
+		{% if user.is_authenticated %}
+            <li>
+                <a href="{% url my_account %}">{% trans "My Account" %}</a>
+            </li>
+        {% endif %}
+	    
 	    
 	
-		<li class="pull-right">
+		<div class="pull-right auth_box_wrapper">
 			<div id="auth_box">
 	   			 {% include "registration/auth_box.html" %}
 			</div>
 			<div class="cb"></div>
-		</li>
+		</div>
 	</ul>
 </div>

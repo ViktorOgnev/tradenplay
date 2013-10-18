@@ -1,12 +1,17 @@
 from django.contrib.auth import logout, authenticate, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import (UserCreationForm, AuthenticationForm,
+                                       PasswordChangeForm)
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.csrf import csrf_protect
+
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import urlresolvers, render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
 from django.utils.translation import ugettext_lazy as _
 from django.utils import simplejson
 
@@ -159,3 +164,39 @@ def ajax_login(request):
         result = False
     response = HttpResponse(json.dumps(result), mimetype = u'application/json')
     return response
+    
+    
+@sensitive_post_parameters()
+@csrf_protect
+@login_required
+def password_change(request,
+                    template_name='registration/password_change_form.html',
+                    post_change_redirect=None,
+                    password_change_form=PasswordChangeForm,
+                    current_app=None, extra_context=None):
+    if post_change_redirect is None:
+        post_change_redirect = reverse('accounts.views.password_change_done')
+    if request.method == "POST":
+        form = password_change_form(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(post_change_redirect)
+    else:
+        form = password_change_form(user=request.user)
+    context = {
+        'form': form,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
+
+@login_required
+def password_change_done(request,
+                         template_name='registration/password_change_done.html',
+                         current_app=None, extra_context=None):
+    context = {}
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)

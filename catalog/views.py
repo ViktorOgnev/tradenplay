@@ -82,6 +82,8 @@ def show_product(request,
 
     if not product:
         product = get_object_or_404(Product.active.all(), slug=slug)
+        if not product:
+            raise SyntaxError("cannot get a product")
         cache.set(product_cache_key, product, CACHE_TIMEOUT)
     elif not product.is_active:
         raise Http404

@@ -31,14 +31,14 @@
                 <ul class="inline">
                     <li class="span5">
                         <div class="tabbable">
-                            <ul class="nav nav-tabs ">
-                                <li class="active"><a href="#tab1" data-toggle="tab">Link 1</a></li>
-                                <li><a href="#tab2" data-toggle="tab">Link 2</a></li>
-                                <li><a href="#tab3" data-toggle="tab">Link 3</a></li>
-                                <li><a href="#tab4" data-toggle="tab">Link 4</a></li>
+                            <ul class="nav ">
                                 <li class="dropdown" >
                                     {% category_list request.path %}
                                 </li>
+                                <li class="active"><a href="{% url catalog_home %}" >{% trans "Catalog" %}</a></li>
+                                <li><a href="{% url index %}" >{% trans "Ask question" %}</a></li>
+                                
+                                
                             </ul>
                         </div> 
                     </li>

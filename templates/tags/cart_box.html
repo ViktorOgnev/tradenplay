@@ -1,9 +1,15 @@
 {# Usage: "cart_box request" #}
 {% load i18n %}
+{% load static %}
 {% with cart_item_count as cart_count %}
 <a href="{% url show_cart %}">
-    <i class="icon-shopping-cart icon-white"> </i>
-    {{ cart_count }} 
+    <!-- <i class="icon-shopping-cart icon-white"> </i> -->
+    <ul class="inline pull-right span1">
+    	<li><img class="menu_cart_icon"src="{% get_static_prefix %}img/cart_big_white.png" alt="" /></li>
+    	<li><p class="font_19px">{{ cart_count }} </p></li>
+    </ul>
+    
+    
 <a/>
 {% endwith %}
 

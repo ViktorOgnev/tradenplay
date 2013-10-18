@@ -4,17 +4,38 @@
 {% if forloop.first %}
 <h4> {{ header_text }}</h4>
 {% endif %}
-<div class="product thumbnail span2" data-product-id="{{ product.id }}">
+<div class="product_thumbnail_wrapper thumbnail span2" data-product-id="{{ product.id }}">
+    
     {% include 'tags/product_thumbnail.html' %}
-    {{ product.description|truncatechars:35 }}
-    <ul class="inline pull-right">
-    	<li><h5 class="text-info">{% trans "Price:" %}</h5></li>
-    	<li><h4 class="text-success">{{ product.price }}</h4></li>
-    </ul>
-    <p class="pull-right"><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+    <div class="price_n_actions">
+        <ul class="inline pull-right">
+            <li><h5 class="text-info">{% trans "Price:" %}</h5></li>
+            <li><h4 class="text-success">{{ product.price }}</h4></li>
+        </ul>
+        <br />
+        <div class="span1 pull-right">
+            
+            <div class="to-cart">
+                <form method="post" action="{% url catalog_product slug=product.slug %}" class="form-inline ">
+                    
+                    <input name="quantity" id="id_quantity"  class="quantity form-control input-mini" type="hidden" value="1">
+                    <input class="add_to_cart_input" type="hidden" name="slug" value="{{ product.slug }}" id="id_slug">
+                    <button  class="btn btn-info btn-large add_to_cart_input "type="submit">
+                        <i class="icon-plus"></i>&nbsp;
+                        <i class="icon-shopping-cart"></i>
+                        &nbsp;
+                    </button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="ellipsis">{{ product.description|truncatechars:100 }}</div>
+    
 </div>
 {% if forloop.last %}
-<div class="cb">&nbsp;</div>
+
 {% endif %}
 {% endfor %}
 
