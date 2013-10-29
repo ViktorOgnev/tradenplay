@@ -10,7 +10,9 @@ from django.db.models import Max
 
 from tradenplay.settings import SESSION_AGE_DAYS
 from catalog.models import Product
+
 from .models import CartItem
+
 CART_ID_SESSION_KEY = 'cart_id'
 
 
